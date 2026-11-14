@@ -1,0 +1,1051 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Guía interactiva de estudio DSY1102: Cápsula del Tiempo FX, paso a paso desde JavaFX hasta persistencia JSON.">
+  <meta name="theme-color" content="#071b35">
+  <title>DSY1102 | Guía Cápsula del Tiempo FX</title>
+  <style>
+    :root{color-scheme:dark;--bg:#071426;--panel:#10243d;--panel2:#152d49;--line:#27405b;--text:#ecf4ff;--muted:#a9bfd7;--blue:#5cb6ff;--cyan:#49d1c3;--yellow:#ffd47d;--radius:16px}
+    *{box-sizing:border-box} html{scroll-behavior:smooth;scroll-padding-top:82px} body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;line-height:1.65}
+    a{color:var(--blue)}a:hover{color:#a2d8ff}button,input{font:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}
+    .top{position:sticky;top:0;background:#071426f2;border-bottom:1px solid var(--line);z-index:20;backdrop-filter:blur(15px)}.top-inner{max-width:1260px;margin:auto;padding:12px 22px;display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{font-weight:850;letter-spacing:.02em;color:var(--text);text-decoration:none}.brand span{color:var(--cyan)}.toplinks{display:flex;gap:12px;align-items:center}.toplinks a{font-size:.9rem;text-decoration:none}
+    .layout{max-width:1260px;margin:auto;display:grid;grid-template-columns:250px minmax(0,1fr);gap:36px;padding:30px 22px 100px}.sidebar{position:sticky;top:85px;align-self:start;max-height:calc(100vh - 110px);overflow:auto}.sidebar h2{font-size:.72rem;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;margin:12px 12px}.sidebar a{display:block;text-decoration:none;color:var(--muted);padding:9px 12px;border-radius:9px;font-size:.91rem}.sidebar a:hover,.sidebar a.active{background:var(--panel2);color:var(--text)}.sidebar small{display:block;color:var(--muted);padding:10px 12px}
+    .content{min-width:0}.hero{background:radial-gradient(circle at 83% 6%,#28567a 0,transparent 38%),linear-gradient(135deg,#12345a,#0c1e34);border:1px solid #3d6685;border-radius:24px;padding:clamp(24px,5vw,52px);margin-bottom:30px}.eyebrow{font-size:.75rem;font-weight:800;letter-spacing:.15em;color:var(--cyan);text-transform:uppercase}.hero h1{font-size:clamp(2rem,5vw,3.65rem);line-height:1.13;margin:12px 0 20px;letter-spacing:-.04em}.hero h1 em{font-style:normal;color:#86e7df}.hero p{max-width:740px;color:#cfe1f6;font-size:1.08rem}.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}.chip{background:#ffffff13;border:1px solid #ffffff24;color:#dcecff;padding:5px 12px;border-radius:999px;font-size:.8rem}
+    section{padding-top:12px;margin-bottom:50px}h2{font-size:clamp(1.45rem,3vw,2rem);line-height:1.25;margin:8px 0 14px;letter-spacing:-.025em}h3{font-size:1.06rem;margin:22px 0 9px}p{margin:10px 0 16px}.sub{color:var(--muted)}.panel,.lesson,.quizbox{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px;margin:18px 0}.panel.soft{background:var(--panel2)}.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.stat{background:#0b2038;padding:16px;border-radius:13px;border:1px solid var(--line)}.stat strong{display:block;color:var(--cyan);font-size:1.45rem}.stat span{color:var(--muted);font-size:.87rem}.timeline{display:grid;gap:9px}.step{display:grid;grid-template-columns:45px 1fr;gap:13px;align-items:start;padding:15px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}.step .num{height:36px;width:36px;display:grid;place-items:center;border-radius:11px;background:#234d68;color:#b4edff;font-weight:900}.step b{display:block}.step p{margin:2px 0;color:var(--muted);font-size:.91rem}
+    .lesson{scroll-margin-top:90px}.lesson-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}.lesson-head .eyebrow{margin-top:2px}.checkline{display:flex;align-items:center;gap:10px;background:#163d44;padding:10px 12px;border-radius:10px;color:#d9faf3;font-size:.88rem}.checkline input{width:18px;height:18px;accent-color:var(--cyan)}
+    pre{position:relative;background:#061323;border:1px solid #2d4861;color:#ddedfc;border-radius:13px;padding:18px;overflow:auto;white-space:pre;font-size:.84rem;line-height:1.5;tab-size:4}code{font-family:ui-monospace,SFMono-Regular,Consolas,'Liberation Mono',monospace}p code,li code{background:#20374f;padding:2px 5px;border-radius:4px;color:#a4e4ff;font-size:.9em}.codehead{display:flex;justify-content:space-between;align-items:center;margin-top:15px;gap:10px;color:var(--muted);font-size:.8rem;font-weight:700}.copy{border:1px solid var(--line);background:var(--panel2);border-radius:7px;color:var(--text);padding:5px 10px;font-size:.8rem}.copy:hover{border-color:var(--cyan)}
+    .table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:.9rem}td,th{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line)}th{color:#b3e2ff;background:#182f48}td{color:#d9e8f8}.note{border-left:4px solid var(--cyan);padding:12px 16px;background:#13333e;border-radius:0 10px 10px 0;margin:15px 0}.warning{border-left-color:var(--yellow);background:#3d3121}.note b{color:#fff}
+    .progress-row{display:flex;justify-content:space-between;align-items:center;gap:12px}.bar{height:11px;border-radius:999px;background:#2b4055;overflow:hidden;margin:13px 0}.bar>div{background:linear-gradient(90deg,var(--blue),var(--cyan));height:100%;width:0;transition:width .2s}.btn{border:0;border-radius:9px;background:#2e9cd0;color:#061828;font-weight:750;padding:9px 15px}.btn.secondary{background:#25425e;color:#e2f3ff}.btn:hover{filter:brightness(1.12)}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}.qa{border:1px solid var(--line);border-radius:12px;padding:15px;margin:10px 0;background:#10283f}.qa h3{margin:0 0 10px;font-size:1rem}.qa .answer{display:none;padding-top:12px;color:#bfe4da}.qa.reveal .answer{display:block}.qa button{border:1px solid #4b7895;border-radius:8px;padding:6px 12px;background:#224762;color:#e4f5ff}
+    .checks{display:grid;gap:8px}.checks label{display:flex;align-items:flex-start;gap:10px;background:#10243d;padding:12px 15px;border:1px solid var(--line);border-radius:10px}.checks input{margin-top:5px;accent-color:var(--cyan);width:17px;height:17px}.footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:20px;margin-top:70px}.mobile-toggle{display:none}.illustration{width:100%;border-radius:14px;border:1px solid #3a6180;background:#0b2038;overflow:hidden;margin:18px 0}.illustration svg{width:100%;height:auto;display:block}.mini{font-size:.83rem;color:var(--muted)}
+    @media(max-width:850px){.layout{grid-template-columns:1fr;padding:18px 15px 60px}.sidebar{display:none;position:relative;top:auto;max-height:none;background:var(--panel);border:1px solid var(--line);padding:12px;border-radius:14px}.sidebar.show{display:block}.mobile-toggle{display:inline-block;border:1px solid var(--line);border-radius:8px;background:var(--panel2);color:var(--text);padding:6px 10px}.toplinks{gap:7px}.toplinks a{display:none}.hero{padding:26px 21px}.two{grid-template-columns:1fr}.panel,.lesson{padding:17px}.layout{gap:14px}}
+    @media print{.top,.sidebar,.btn,.copy,.actions,.checkline{display:none!important}.layout{display:block;padding:0}.hero,.panel,.lesson{break-inside:avoid;background:#fff!important;color:#111!important;border:1px solid #aaa}.hero p,.sub,p,td{color:#222!important}body{background:#fff;color:#111}pre{white-space:pre-wrap;color:#111;background:#f7f7f7}section{margin-bottom:20px}}
+
+    .sourcefile{background:var(--panel);border:1px solid var(--line);padding:22px;border-radius:15px;margin:25px 0;scroll-margin-top:90px}.sourcefile h3{font-size:1.2rem;margin:5px 0}.filetag{color:var(--cyan);font-weight:800;font-size:.73rem;letter-spacing:.12em}.smallhint{font-size:.84rem;font-weight:400;color:var(--muted)}.filepath{overflow-wrap:anywhere;font-size:.86rem}.fileindex{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}.fileindex a{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:10px 12px;text-decoration:none;color:var(--text);font-size:.85rem;overflow-wrap:anywhere}.fileindex a span{color:var(--cyan);font-weight:800;margin-right:10px}.fileindex a:hover{border-color:var(--cyan)}.sourcefile pre{max-height:480px;overflow:auto}.sourcefile pre code{white-space:pre}.sourcefile .note{font-size:.88rem}.sourcefile .codehead{flex-wrap:wrap}
+  
+    .taller{scroll-margin-top:90px}.action-list{display:grid;gap:13px}.study-action{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:18px;scroll-margin-top:90px}.study-action-header{display:flex;align-items:flex-start;gap:13px}.study-count{background:#1c5262;color:#a9fff0;border-radius:11px;display:grid;place-items:center;width:40px;height:40px;flex-shrink:0;font-weight:800}.study-action-header h3{margin:2px 0}.study-action-header p{margin:0;color:var(--muted)}.study-steps{padding-left:53px}.study-steps p{margin:10px 0}.study-action-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-left:53px}.jump-code{background:#17455b;border:1px solid #3b7b92;color:#c4f7fb;text-decoration:none;border-radius:9px;padding:9px 12px;font-weight:700;font-size:.87rem}.study-done{display:flex;gap:8px;align-items:center;font-size:.84rem}.study-done input{width:17px;height:17px;accent-color:var(--cyan)}.study-action:has(input:checked){border-color:#2b8e7d}.study-action:has(input:checked) .study-count{background:#1c665d}@media(max-width:600px){.study-steps,.study-action-footer{padding-left:0}.study-action{padding:14px}.study-action-footer{align-items:stretch}.jump-code{width:100%;text-align:center}}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-inner"><a class="brand" href="#inicio">DSY1102 <span>· Cápsula FX</span></a><div class="toplinks"><a href="#taller">Taller paso a paso</a><a href="#repaso">Preguntas</a><a href="#entrega">Entrega</a><button id="navToggle" class="mobile-toggle" aria-expanded="false" aria-controls="side">☰ Menú</button></div></div></header>
+<div class="layout"><nav class="sidebar" id="side" aria-label="Navegación de la guía"><h2>Contenido</h2><a href="#inicio">Introducción</a><a href="#ruta">Plan de 7 días</a><a href="#conceptos">Conceptos básicos</a><a href="#r00">R00 · Preparación</a><a href="#r01">R01 · Modelo</a><a href="#r02">R02 · Tabla</a><a href="#r03">R03 · Formulario</a><a href="#r04">R04 · Navegación</a><a href="#r05">R05 · JSON / DAO</a><a href="#r06">R06 · Recuperación</a><a href="#repaso">Repaso interactivo</a><a href="#entrega">Checklist de entrega</a><a href="#taller">Taller · archivo por archivo</a><a href="#guia-total">CÓDIGO COMPLETO · 15 archivos</a><a href="#fuentes">Código del profesor</a><small>✓ El progreso se conserva en este navegador.</small></nav>
+<main class="content">
+<section class="hero" id="inicio"><div class="eyebrow">Guía interactiva · Desarrollo orientado a objetos</div><h1>De cero a una <em>app que recuerda</em>.</h1><p>Aprende a crear la <strong>Cápsula del Tiempo FX</strong> con Java 21, JavaFX y Maven. Cada etapa tiene un objetivo, pasos sencillos, código y una prueba para saber si lo hiciste bien.</p><div class="chips"><span class="chip">R00 a R06</span><span class="chip">Explicaciones desde cero</span><span class="chip">Archivos Java completos</span><span class="chip">Progreso guardado</span><span class="chip">Sin servidor</span></div></section>
+<section id="ruta"><div class="eyebrow">Tu recorrido</div><h2>Plan de estudio: siete sesiones</h2><p class="sub">Es como construir una casa: primero la base, luego las habitaciones y al final una puerta con llave para cuidar lo que guardaste.</p><div class="panel"><div class="progress-row"><b>Mi progreso</b><strong id="progressText">0 de 7 etapas</strong></div><div class="bar" role="progressbar" aria-label="Progreso de etapas" aria-valuemin="0" aria-valuemax="7" aria-valuenow="0" id="progressBar"><div id="progressFill"></div></div><p class="mini">Cada casilla marcada se guarda automáticamente en este dispositivo.</p><button class="btn secondary" id="resetProgress">Reiniciar progreso</button></div><div class="timeline" id="timeline">
+<div class="step"><div class="num">00</div><div><b>Sesión 1 · R00 · 60–90 minutos</b><p>Instala/configura Java 21, crea JavaFX con Maven y abre una ventana.</p></div></div><div class="step"><div class="num">01</div><div><b>Sesión 2 · R01 · 60 minutos</b><p>Construye tu primer objeto MensajeFuturo con constructor y getters.</p></div></div><div class="step"><div class="num">02</div><div><b>Sesión 3 · R02 · 75 minutos</b><p>Muestra dos mensajes en una TableView alimentada por ObservableList.</p></div></div><div class="step"><div class="num">03</div><div><b>Sesión 4 · R03 · 75 minutos</b><p>Crea un formulario y evita aceptar datos vacíos.</p></div></div><div class="step"><div class="num">04</div><div><b>Sesión 5 · R04 · 90 minutos</b><p>Separa listado y formulario en dos vistas que comparten los datos.</p></div></div><div class="step"><div class="num">05</div><div><b>Sesión 6 · R05 · 90–120 minutos</b><p>Separa responsabilidades y escribe el archivo mensajes.json.</p></div></div><div class="step"><div class="num">06</div><div><b>Sesión 7 · R06 · 90 minutos</b><p>Reinicia, recupera datos, prueba respaldos y errores.</p></div></div></div></section>
+<section id="conceptos"><div class="eyebrow">Diccionario para principiantes</div><h2>Palabras difíciles, explicadas fácil</h2><div class="table-wrap"><table><thead><tr><th>Término</th><th>Significa...</th></tr></thead><tbody><tr><td>Clase</td><td>Un molde para construir cosas, como un molde de galletas.</td></tr><tr><td>Objeto</td><td>La galleta concreta hecha con el molde.</td></tr><tr><td>Atributo</td><td>Una característica: autor, texto o plazo.</td></tr><tr><td>Constructor</td><td>La receta que inicia un objeto con sus datos.</td></tr><tr><td>Getter</td><td>Una pregunta para conocer un atributo.</td></tr><tr><td>private</td><td>Protección para que no cualquiera altere directamente un dato.</td></tr><tr><td>FXML</td><td>El plano que describe la pantalla.</td></tr><tr><td>Controller</td><td>Quien recibe los clics y conecta pantalla con programa.</td></tr><tr><td>ObservableList</td><td>Una lista que avisa a la interfaz cuando cambia.</td></tr><tr><td>TableView</td><td>La tabla que aparece en la ventana.</td></tr><tr><td>Service</td><td>El lugar para las reglas de negocio.</td></tr><tr><td>DAO</td><td>La persona encargada de archivar y recuperar papeles.</td></tr><tr><td>JSON</td><td>Un archivo de texto ordenado que conserva los datos.</td></tr><tr><td>Maven</td><td>La herramienta que organiza dependencias y compila/prueba.</td></tr></tbody></table></div></section>
+<section class="lesson" id="r00"><div class="lesson-head"><div><div class="eyebrow">R00 · Primera etapa</div><h2>Encender la aplicación</h2></div><label class="checkline"><input type="checkbox" data-stage="r00"> Ya lo conseguí</label></div><p>Piensa en una televisión nueva: antes de ver cualquier programa, necesitamos conectarla y encenderla. En esta etapa nuestra meta es que aparezca una ventana, aunque esté vacía.</p><div class="two"><div class="stat"><strong>Herramientas</strong><span>IntelliJ IDEA, Java 21 y Maven</span></div><div class="stat"><strong>Prueba de éxito</strong><span>Launcher abre la ventana sin errores</span></div></div><h3>Pasos</h3><ol><li>En IntelliJ pulsa <b>New Project → JavaFX</b>.</li><li>Selecciona <b>Java</b>, <b>Maven</b> y <b>JDK 21</b>.</li><li>Usa el nombre <code>time-capsule</code> y grupo <code>cl.duoc.dsy1102</code>.</li><li>Revisa que el paquete base sea <code>cl.duoc.dsy1102.timecapsule</code>.</li><li>Abre <code>Launcher.java</code> y ejecuta su <code>main</code>.</li></ol><div class="codehead">Terminal · comprobar Java <button class="copy" data-copy="java-version">Copiar</button></div><pre id="java-version"><code>java -version</code></pre><div class="note warning"><b>Si Maven compila como Java 8:</b> en el plugin de compilación de <code>pom.xml</code> cambia la configuración a <code>&lt;release&gt;21&lt;/release&gt;</code>; luego haz Reload Maven, Rebuild y Run. No borres el resto del POM.</div><p class="note"><b>Comprobación:</b> ¡aparece una ventana JavaFX! No necesitas añadir una tabla todavía.</p></section>
+<section class="lesson" id="r01"><div class="lesson-head"><div><div class="eyebrow">R01 · Modelo y encapsulación</div><h2>Fabricar una ficha de mensaje</h2></div><label class="checkline"><input type="checkbox" data-stage="r01"> Ya lo conseguí</label></div><p>Un mensaje tiene <b>autor</b>, <b>texto</b> y <b>plazo en años</b>. Nuestra primera clase es el molde para crear muchas fichas diferentes.</p><h3>Pasos</h3><ol><li>Crea el paquete <code>model</code> dentro del paquete base.</li><li>Crea la clase Java <code>MensajeFuturo</code>.</li><li>Escribe atributos <code>private</code>, constructor y getters.</li><li>Crea una prueba de consola independiente.</li></ol><div class="codehead">model/MensajeFuturo.java <button class="copy" data-copy="codigo-r01">Copiar código</button></div><pre id="codigo-r01"><code>package cl.duoc.dsy1102.timecapsule.model;
+
+public class MensajeFuturo {
+    private String autor;
+    private String texto;
+    private int plazoAnios;
+
+    public MensajeFuturo(String autor, String texto, int plazoAnios) {
+        this.autor = autor;
+        this.texto = texto;
+        this.plazoAnios = plazoAnios;
+    }
+
+    public String getAutor() { return autor; }
+    public String getTexto() { return texto; }
+    public int getPlazoAnios() { return plazoAnios; }
+}</code></pre><div class="codehead">PruebaMensaje.java <button class="copy" data-copy="codigo-prueba">Copiar código</button></div><pre id="codigo-prueba"><code>package cl.duoc.dsy1102.timecapsule;
+
+import cl.duoc.dsy1102.timecapsule.model.MensajeFuturo;
+
+public class PruebaMensaje {
+    public static void main(String[] args) {
+        MensajeFuturo m = new MensajeFuturo(
+            "Carlos", "Hola, futuro yo", 5
+        );
+        System.out.println(m.getAutor());
+        System.out.println(m.getTexto());
+        System.out.println(m.getPlazoAnios());
+    }
+}</code></pre><div class="note"><b>Debes ver:</b> Carlos, Hola, futuro yo y 5 en la consola. Ahora sabes que una <b>clase</b> es un molde y <b>new MensajeFuturo(...)</b> crea un objeto.</div></section>
+<section class="lesson" id="r02"><div class="lesson-head"><div><div class="eyebrow">R02 · Tabla con JavaFX</div><h2>Ver las fichas en pantalla</h2></div><label class="checkline"><input type="checkbox" data-stage="r02"> Ya lo conseguí</label></div><p>Ya sabemos fabricar mensajes, pero todavía viven en la consola. Necesitamos una ventana que los muestre: <b>modelo → lista observable → tabla</b>.</p><div class="table-wrap"><table><thead><tr><th>Autor</th><th>Mensaje</th><th>Plazo</th></tr></thead><tbody><tr><td>Valentina</td><td>Cumple tus sueños</td><td>5 años</td></tr><tr><td>Carlos</td><td>Sigue estudiando</td><td>10 años</td></tr></tbody></table></div><h3>Pasos</h3><ol><li>Abre <code>hello-view.fxml</code> y declara un <code>TableView</code> con tres columnas.</li><li>Usa <code>fx:id</code> para enlazar tabla y columnas con <code>HelloController</code>.</li><li>En el Controller crea una <code>ObservableList&lt;MensajeFuturo&gt;</code>.</li><li>Agrega dos mensajes de prueba, configura las columnas y conecta la lista con <code>tablaMensajes.setItems(mensajes)</code>.</li></ol><div class="codehead">hello-view.fxml · vista mínima <button class="copy" data-copy="codigo-fxml">Copiar</button></div><pre id="codigo-fxml"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;?import javafx.scene.layout.VBox?&gt;
+&lt;?import javafx.scene.control.TableView?&gt;
+&lt;?import javafx.scene.control.TableColumn?&gt;
+&lt;VBox xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="cl.duoc.dsy1102.timecapsule.HelloController"&gt;
+    &lt;TableView fx:id="tablaMensajes"&gt;
+        &lt;columns&gt;
+            &lt;TableColumn fx:id="colAutor" text="Autor"/&gt;
+            &lt;TableColumn fx:id="colTexto" text="Mensaje"/&gt;
+            &lt;TableColumn fx:id="colPlazo" text="Años"/&gt;
+        &lt;/columns&gt;
+    &lt;/TableView&gt;
+&lt;/VBox&gt;</code></pre><div class="codehead">HelloController.java · ejemplo completo R02 <button class="copy" data-copy="codigo-controller">Copiar</button></div><pre id="codigo-controller"><code>package cl.duoc.dsy1102.timecapsule;
+
+import cl.duoc.dsy1102.timecapsule.model.MensajeFuturo;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+
+public class HelloController {
+    @FXML private TableView&lt;MensajeFuturo&gt; tablaMensajes;
+    @FXML private TableColumn&lt;MensajeFuturo, String&gt; colAutor;
+    @FXML private TableColumn&lt;MensajeFuturo, String&gt; colTexto;
+    @FXML private TableColumn&lt;MensajeFuturo, String&gt; colPlazo;
+
+    @FXML
+    private void initialize() {
+        colAutor.setCellValueFactory(d -&gt;
+            new ReadOnlyStringWrapper(d.getValue().getAutor()));
+        colTexto.setCellValueFactory(d -&gt;
+            new ReadOnlyStringWrapper(d.getValue().getTexto()));
+        colPlazo.setCellValueFactory(d -&gt;
+            new ReadOnlyStringWrapper(
+                d.getValue().getPlazoAnios() + " años"));
+
+        ObservableList&lt;MensajeFuturo&gt; mensajes =
+            FXCollections.observableArrayList();
+        mensajes.add(new MensajeFuturo("Valentina", "Cumple tus sueños", 5));
+        mensajes.add(new MensajeFuturo("Carlos", "Sigue estudiando", 10));
+        tablaMensajes.setItems(mensajes);
+    }
+}</code></pre><div class="note"><b>Comprobación:</b> aparecen dos filas y tres columnas. <b>Ojo:</b> en R04 moveremos esta lista fuera del controlador, para compartirla entre pantallas.</div></section>
+<section class="lesson" id="r03"><div class="lesson-head"><div><div class="eyebrow">R03 · Eventos y validaciones</div><h2>Dejar que el usuario escriba</h2></div><label class="checkline"><input type="checkbox" data-stage="r03"> Ya lo conseguí</label></div><p>Antes nosotros escribíamos los mensajes en el código. Ahora añadiremos <code>TextField</code> para autor/texto, <code>ComboBox</code> para el plazo y un botón con <code>onAction="#agregarMensaje"</code>.</p><h3>Pasos</h3><ol><li>En el mismo FXML añade campos y botón, con sus <code>fx:id</code>.</li><li>Declara esos controles como <code>@FXML</code> en el Controller.</li><li>En <code>initialize()</code> llena el ComboBox con 1, 5 y 10.</li><li>Crea el método que valida, construye un MensajeFuturo y lo agrega a la lista.</li></ol><div class="codehead">Dentro de HelloController.java · método del botón <button class="copy" data-copy="codigo-r03">Copiar</button></div><pre id="codigo-r03"><code>@FXML private TextField campoAutor;
+@FXML private TextField campoTexto;
+@FXML private ComboBox&lt;Integer&gt; campoPlazo;
+
+@FXML
+private void agregarMensaje() {
+    String autor = campoAutor.getText().trim();
+    String texto = campoTexto.getText().trim();
+    Integer plazo = campoPlazo.getValue();
+
+    if (autor.isEmpty() || texto.isEmpty() || plazo == null) {
+        System.out.println("Completa autor, mensaje y plazo");
+        return;
+    }
+
+    MensajeFuturo nuevo = new MensajeFuturo(autor, texto, plazo);
+    mensajes.add(nuevo);
+}</code></pre><div class="note warning"><b>Importante:</b> es un <b>fragmento</b>, no un archivo completo. Debes añadir los imports, conservar <code>mensajes</code> como campo del Controller en esta etapa y configurar el ComboBox. El formulario no guarda todavía en disco.</div><div class="note"><b>Comprobación:</b> un mensaje válido aparece en la tabla; campos vacíos no crean mensajes.</div></section>
+<section class="lesson" id="r04"><div class="lesson-head"><div><div class="eyebrow">R04 · Dos vistas</div><h2>Una pantalla para mirar y otra para escribir</h2></div><label class="checkline"><input type="checkbox" data-stage="r04"> Ya lo conseguí</label></div><p>Imagina dos habitaciones que comparten un mismo archivador. Si cada habitación fabrica su propio archivador, parecerá que los mensajes se pierden. Por eso ambas deben compartir <b>la misma lista</b>.</p><div class="two"><div class="panel soft"><h3>Listado</h3><p class="sub">TableView y botón «Escribir nuevo mensaje».</p></div><div class="panel soft"><h3>Formulario</h3><p class="sub">Autor, mensaje, plazo, Guardar y Cancelar.</p></div></div><h3>Pasos</h3><ol><li>Deja la tabla en <code>hello-view.fxml</code>.</li><li>Crea <code>formulario-view.fxml</code> y <code>FormularioController.java</code>.</li><li>En <code>HelloApplication</code> conserva la <code>ObservableList</code> y compártela con ambos controladores.</li><li>Usa <code>FXMLLoader</code> para abrir la segunda pantalla.</li><li>Al guardar, añade el mensaje a la lista compartida y vuelve al listado.</li></ol><div class="codehead">HelloApplication.java · fragmento de navegación <button class="copy" data-copy="codigo-r04">Copiar</button></div><pre id="codigo-r04"><code>FXMLLoader loader = new FXMLLoader(
+    getClass().getResource("formulario-view.fxml")
+);
+Parent root = loader.load();
+FormularioController controller = loader.getController();
+controller.configurar(this);
+stage.setScene(new Scene(root, 860, 480));</code></pre><div class="note"><b>Comprobación:</b> agrega a Pedro en el formulario; vuelve al listado y comprueba que Pedro sigue presente. <b>Atención:</b> al cerrar la app se siguen perdiendo los mensajes; eso se soluciona en R05.</div><p><a href="https://github.com/cmartinezs/DSY1102-JFX-TIME-CAPSULE" target="_blank" rel="noopener noreferrer">Ver el proyecto del profesor y su evolución por incrementos ↗</a></p></section>
+<section class="lesson" id="r05"><div class="lesson-head"><div><div class="eyebrow">R05 · Responsabilidades y JSON</div><h2>Guardar los mensajes para mañana</h2></div><label class="checkline"><input type="checkbox" data-stage="r05"> Ya lo conseguí</label></div><p>La memoria es como una pizarra: se borra al apagar. Un archivo JSON es como un cuaderno: permite volver a leer lo escrito.</p><div class="illustration"><svg viewBox="0 0 720 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Flujo: Pantalla, Controller, Service, DAO, Archivo JSON"><rect width="720" height="150" fill="#0b2038"/><g font-family="sans-serif" text-anchor="middle" font-size="16" fill="#e9f7ff"><rect x="18" y="43" width="115" height="62" rx="10" fill="#20475d"/><text x="75" y="69">Pantalla</text><text x="75" y="89" font-size="12">FXML</text><rect x="163" y="43" width="115" height="62" rx="10" fill="#20475d"/><text x="220" y="80">Controller</text><rect x="308" y="43" width="115" height="62" rx="10" fill="#20475d"/><text x="365" y="80">Service</text><rect x="453" y="43" width="115" height="62" rx="10" fill="#20475d"/><text x="510" y="80">DAO</text><rect x="598" y="43" width="105" height="62" rx="10" fill="#24635f"/><text x="650" y="80">JSON</text></g><g stroke="#76dfd0" stroke-width="3" fill="none"><path d="M137 74h22m-8 -6 8 6 -8 6M282 74h22m-8 -6 8 6 -8 6M427 74h22m-8 -6 8 6 -8 6M572 74h22m-8 -6 8 6 -8 6"/></g></svg></div><h3>Pasos</h3><ol><li>Crea los paquetes <code>service</code> y <code>dao</code>.</li><li>Crea la interfaz <code>MensajeDao</code>, que define leer y guardar.</li><li>Crea <code>JsonMensajeDao</code>, que implementa la interfaz usando Jackson.</li><li>Crea <code>MensajeService</code>, encargado de validaciones y coordinación.</li><li>Agrega la dependencia Jackson al <code>pom.xml</code> y revisa los requisitos del módulo.</li><li>Adapta <code>MensajeFuturo</code> para deserializar (constructor vacío y setters según el ejemplo docente).</li><li>Conecta el Controller al Service y guarda dos mensajes.</li></ol><div class="codehead">dao/MensajeDao.java <button class="copy" data-copy="codigo-dao">Copiar</button></div><pre id="codigo-dao"><code>package cl.duoc.dsy1102.timecapsule.dao;
+
+import cl.duoc.dsy1102.timecapsule.model.MensajeFuturo;
+import java.io.IOException;
+import java.util.List;
+
+public interface MensajeDao {
+    List&lt;MensajeFuturo&gt; listar() throws IOException;
+    void guardar(List&lt;MensajeFuturo&gt; mensajes) throws IOException;
+}</code></pre><div class="codehead">data/mensajes.json · ejemplo de resultado <button class="copy" data-copy="codigo-json">Copiar</button></div><pre id="codigo-json"><code>[
+  {"autor":"Carlos","texto":"Hola, futuro yo","plazoAnios":5},
+  {"autor":"Valentina","texto":"Cumple tus sueños","plazoAnios":10}
+]</code></pre><div class="note warning"><b>El DAO, el Service y los cambios de dependencias requieren varios archivos.</b> Para este incremento usa el código completo de la rama correspondiente del profesor; un solo fragmento no sería suficiente para compilarlo de forma aislada.</div><div class="note"><b>Comprobación:</b> dos filas en la tabla y dos objetos dentro de <code>data/mensajes.json</code>.</div></section>
+<section class="lesson" id="r06"><div class="lesson-head"><div><div class="eyebrow">R06 · Recuperación y pruebas</div><h2>Que los mensajes estén seguros</h2></div><label class="checkline"><input type="checkbox" data-stage="r06"> Ya lo conseguí</label></div><p>Guardar no es suficiente si después no podemos recuperar los datos. Esta etapa verifica qué pasa al cerrar, reiniciar o encontrar un archivo dañado.</p><h3>Cuatro comprobaciones obligatorias</h3><ol><li><b>Reinicio:</b> guarda dos mensajes, cierra la aplicación completamente y vuelve a ejecutar <code>Launcher</code>. Deben reaparecer ambos.</li><li><b>Escritura más segura:</b> el DAO escribe primero un temporal, conserva el anterior en <code>.bak</code> y después reemplaza el archivo.</li><li><b>JSON defectuoso:</b> comprueba que el programa detecta contenido inválido y no lo sustituye silenciosamente por una lista vacía.</li><li><b>Pruebas:</b> ejecuta el conjunto de pruebas del proyecto (JUnit y Maven).</li></ol><div class="codehead">Terminal · ejecutar pruebas <button class="copy" data-copy="codigo-tests">Copiar</button></div><pre id="codigo-tests"><code>mvn test</code></pre><p class="sub">En Windows, si el repositorio incluye el Maven Wrapper, puedes utilizar <code>mvnw.cmd test</code>.</p><div class="note"><b>Comprobación:</b> el mensaje sigue allí después de reiniciar; existe un respaldo cuando corresponde; el archivo defectuoso produce un error comprensible y las pruebas se ejecutan correctamente.</div></section>
+<section id="repaso"><div class="eyebrow">Practicar y aprender</div><h2>Diez preguntas de estudio</h2><p class="sub">Intenta contestar primero sin mirar la respuesta. Usa «Mostrar respuesta» para comprobar.</p><div id="questions"></div></section>
+<section id="entrega"><div class="eyebrow">Verificación final</div><h2>¿Puedo dar por terminado el trabajo?</h2><p>Esta lista se guarda en tu navegador. No marques algo solamente porque el código esté escrito: márcalo cuando lo hayas probado.</p><div class="checks" id="finalChecks"></div><div class="actions"><button class="btn" onclick="window.print()">Imprimir / Guardar en PDF</button><button class="btn secondary" id="resetAll">Borrar marcas y repasar de nuevo</button></div></section>
+<section id="taller" class="taller"><div class="eyebrow">Tu taller de programación</div><h2>15 tareas guiadas: crea un archivo a la vez</h2>
+<p>Esta es la parte principal de tu estudio. Sigue el orden indicado, <strong>abre el código completo</strong> y pega su contenido en el archivo que creaste. Nunca pegues un fragmento suelto fuera de su clase. Si ya tienes el proyecto descargado, abre cada archivo y compara el código.</p>
+<div class="note warning"><strong>Importante para no confundirte:</strong> la lista siguiente construye directamente la <strong>versión final R06</strong>. Las actividades R00–R06 que están arriba explican cómo fue evolucionando el proyecto. No mezcles el controlador de R02 con el controlador final de R06; son versiones de distintas etapas.</div>
+<div class="panel" style="margin-top:14px"><div class="progress-row"><strong>Mi avance por archivos</strong><strong id="fileProgressText">0 / 15</strong></div><div class="bar" role="progressbar" aria-label="Avance por archivo" aria-valuemin="0" aria-valuemax="15" aria-valuenow="0" id="fileProgressBar"><div id="fileProgressFill"></div></div><p class="mini">Marca solo después de crear, leer y comprobar cada archivo. Esta página recuerda las marcas en este navegador.</p></div>
+<div class="action-list"><article class="study-action" id="estudiar-1">
+  <div class="study-action-header"><span class="study-count">01</span><div><span class="eyebrow">R00</span><h3>pom.xml</h3><p>Configurar Maven</p></div></div>
+  <div class="study-steps"><p><strong>① Dónde crearlo.</strong> En la raíz del proyecto, abre o crea pom.xml; pega el código completo y selecciona Reload Maven.</p><p><strong>② Qué aprender.</strong> Identifica la versión de Java en &lt;release&gt;21&lt;/release&gt;.</p><p><strong>③ Cómo saber que funciona.</strong> La pestaña Maven carga las dependencias sin errores.</p></div>
+  <div class="study-action-footer"><a class="jump-code" href="#archivo-1">Ver código completo y ruta exacta ↓</a><label class="study-done"><input type="checkbox" data-file-done="1"> Ya lo hice y lo entendí</label></div>
+  </article><article class="study-action" id="estudiar-2">
+  <div class="study-action-header"><span class="study-count">02</span><div><span class="eyebrow">R00</span><h3>module-info.java</h3><p>Permitir usar JavaFX y Jackson</p></div></div>
+  <div class="study-steps"><p><strong>① Dónde crearlo.</strong> Dentro de src/main/java crea module-info.java y pega las instrucciones requires y opens.</p><p><strong>② Qué aprender.</strong> Encuentra un requires y explica por qué permite usar una biblioteca.</p><p><strong>③ Cómo saber que funciona.</strong> El proyecto reconoce los módulos JavaFX.</p></div>
+  <div class="study-action-footer"><a class="jump-code" href="#archivo-2">Ver código completo y ruta exacta ↓</a><label class="study-done"><input type="checkbox" data-file-done="2"> Ya lo hice y lo entendí</label></div>
+  </article><article class="study-action" id="estudiar-3">
+  <div class="study-action-header"><span class="study-count">03</span><div><span class="eyebrow">R00</span><h3>Launcher.java</h3><p>Arrancar la aplicación</p></div></div>
+  <div class="study-steps"><p><strong>① Dónde crearlo.</strong> Dentro del paquete cl.duoc.dsy1102.timecapsule crea Launcher como clase Java.</p><p><strong>② Qué aprender.</strong> Localiza main(String[] args).</p><p><strong>③ Cómo saber que funciona.</strong> La aplicación inicia desde el botón Run.</p></div>
+  <div class="study-action-footer"><a class="jump-code" href="#archivo-3">Ver código completo y ruta exacta ↓</a><label class="study-done"><input type="checkbox" data-file-done="3"> Ya lo hice y lo entendí</label></div>
+  </article><article class="study-action" id="estudiar-4">
+  <div class="study-action-header"><span class="study-count">04</span><div><span class="eyebrow">R04–R06</span><h3>HelloApplication.java</h3><p>Gestionar la ventana y el arranque</p></div></div>
+  <div class="study-steps"><p><strong>① Dónde crearlo.</strong> En el paquete base crea HelloApplication como clase Java.</p><p><strong>② Qué aprender.</strong> Encuentra los métodos mostrarListado y mostrarFormulario.</p><p><strong>③ Cómo saber que funciona.</strong> Se puede pasar del listado al formulario.</p></div>
+  <div class="study-action-footer"><a class="jump-code" href="#archivo-4">Ver código completo y ruta exacta ↓</a><label class="study-done"><input type="checkbox" data-file-done="4"> Ya lo hice y lo entendí</label></div>
+  </article><article class="study-action" id="estudiar-5">
+  <div class="study-action-header"><span class="study-count">05</span><div><span class="eyebrow">R02–R05</span><h3>HelloController.java</h3><p>Controlar la tabla</p></div></div>
+  <div class="study-steps"><p><strong>① Dónde crearlo.</strong> En el paquete base crea HelloController como clase Java.</p><p><strong>② Qué aprender.</strong> Encuentra @FXML y setCellValueFactory.</p><p><strong>③ Cómo saber que funciona.</strong> Los mensajes aparecen en la tabla.</p></div>
+  <div class="study-action-footer"><a class="jump-code" href="#archivo-5">Ver código completo y ruta exacta ↓</a><label class="study-done"><input type="checkbox" data-file-done="5"> Ya lo hice y lo entendí</label></div>
+  </article><article class="study-action" id="estudiar-6">
+  <div class="study-action-header"><span class="study-count">06</span><div><span class="eyebrow">R03–R05</span><h3>FormularioController.java</h3><p>Recibir y comprobar el formulario</p></div></div>
+  <div class="study-steps"><p><strong>① Dónde crearlo.</strong> En el paquete base crea FormularioController como clase Java.</p><p><strong>② Qué aprender.</strong> Encuentra el método guardarMensaje y el catch de validación.</p><p><strong>③ Cómo saber que funciona.</strong> El formulario agrega mensajes válidos y avisa de los errores.</p></div>
+  <div class="study-action-footer"><a class="jump-code" href="#archivo-6">Ver código completo y ruta exacta ↓</a><label class="study-done"><input type="checkbox" data-file-done="6"> Ya lo hice y lo entendí</label></div>
+  </article><article class="study-action" id="estudiar-7">
+  <div class="study-action-header"><span class="study-count">07</span><div><span class="eyebrow">R01</span><h3>MensajeFuturo.java</h3><p>Construir el modelo</p></div></div>
+  <div class="study-steps"><p><strong>① Dónde crearlo.</strong> Dentro del paquete base crea el subpaquete model y dentro la clase MensajeFuturo.</p><p><strong>② Qué aprender.</strong> Señala un atributo private, el constructor y un getter.</p><p><strong>③ Cómo saber que funciona.</strong> Puedes crear un MensajeFuturo con autor, texto y plazo.</p></div>
+  <div class="study-action-footer"><a class="jump-code" href="#archivo-7">Ver código completo y ruta exacta ↓</a><label class="study-done"><input type="checkbox" data-file-done="7"> Ya lo hice y lo entendí</label></div>
+  </article><article class="study-action" id="estudiar-8">
+  <div class="study-action-header"><span class="study-count">08</span><div><span class="eyebrow">R05</span><h3>MensajeService.java</h3><p>Concentrar las reglas de negocio</p></div></div>
+  <div class="study-steps"><p><strong>① Dónde crearlo.</strong> Crea el subpaquete service y dentro MensajeService como clase Java.</p><p><strong>② Qué aprender.</strong> Encuentra el if que rechaza un autor vacío.</p><p><strong>③ Cómo saber que funciona.</strong> Un registro inválido no se guarda.</p></div>
+  <div class="study-action-footer"><a class="jump-code" href="#archivo-8">Ver código completo y ruta exacta ↓</a><label class="study-done"><input type="checkbox" data-file-done="8"> Ya lo hice y lo entendí</label></div>
+  </article><article class="study-action" id="estudiar-9">
+  <div class="study-action-header"><span class="study-count">09</span><div><span class="eyebrow">R05</span><h3>MensajeDao.java</h3><p>Crear el contrato de almacenamiento</p></div></div>
+  <div class="study-steps"><p><strong>① Dónde crearlo.</strong> Crea el subpaquete dao y dentro MensajeDao como Interface (no Class).</p><p><strong>② Qué aprender.</strong> Explica qué diferencia hay entre listar y guardar.</p><p><strong>③ Cómo saber que funciona.</strong> El código compila con los dos métodos declarados.</p></div>
+  <div class="study-action-footer"><a class="jump-code" href="#archivo-9">Ver código completo y ruta exacta ↓</a><label class="study-done"><input type="checkbox" data-file-done="9"> Ya lo hice y lo entendí</label></div>
+  </article><article class="study-action" id="estudiar-10">
+  <div class="study-action-header"><span class="study-count">10</span><div><span class="eyebrow">R05–R06</span><h3>JsonMensajeDao.java</h3><p>Leer y guardar archivos JSON</p></div></div>
+  <div class="study-steps"><p><strong>① Dónde crearlo.</strong> Dentro de dao crea JsonMensajeDao como clase Java.</p><p><strong>② Qué aprender.</strong> Busca el archivo .bak y STRICT_DUPLICATE_DETECTION.</p><p><strong>③ Cómo saber que funciona.</strong> Aparece data/mensajes.json cuando registras.</p></div>
+  <div class="study-action-footer"><a class="jump-code" href="#archivo-10">Ver código completo y ruta exacta ↓</a><label class="study-done"><input type="checkbox" data-file-done="10"> Ya lo hice y lo entendí</label></div>
+  </article><article class="study-action" id="estudiar-11">
+  <div class="study-action-header"><span class="study-count">11</span><div><span class="eyebrow">R02 / R04</span><h3>hello-view.fxml</h3><p>Dibujar la pantalla del listado</p></div></div>
+  <div class="study-steps"><p><strong>① Dónde crearlo.</strong> En src/main/resources crea las carpetas cl/duoc/dsy1102/timecapsule y allí hello-view.fxml con New → File.</p><p><strong>② Qué aprender.</strong> Relaciona fx:id=&quot;tablaMensajes&quot; con el atributo Java.</p><p><strong>③ Cómo saber que funciona.</strong> Ves la tabla de mensajes y el botón de agregar.</p></div>
+  <div class="study-action-footer"><a class="jump-code" href="#archivo-11">Ver código completo y ruta exacta ↓</a><label class="study-done"><input type="checkbox" data-file-done="11"> Ya lo hice y lo entendí</label></div>
+  </article><article class="study-action" id="estudiar-12">
+  <div class="study-action-header"><span class="study-count">12</span><div><span class="eyebrow">R03 / R04</span><h3>formulario-view.fxml</h3><p>Dibujar el formulario</p></div></div>
+  <div class="study-steps"><p><strong>① Dónde crearlo.</strong> En la misma carpeta resources crea formulario-view.fxml con New → File.</p><p><strong>② Qué aprender.</strong> Relaciona onAction=&quot;#guardarMensaje&quot; con el método Java.</p><p><strong>③ Cómo saber que funciona.</strong> Abre la pantalla para escribir autor, texto y plazo.</p></div>
+  <div class="study-action-footer"><a class="jump-code" href="#archivo-12">Ver código completo y ruta exacta ↓</a><label class="study-done"><input type="checkbox" data-file-done="12"> Ya lo hice y lo entendí</label></div>
+  </article><article class="study-action" id="estudiar-13">
+  <div class="study-action-header"><span class="study-count">13</span><div><span class="eyebrow">R06</span><h3>MensajeServiceTest.java</h3><p>Probar las reglas automáticamente</p></div></div>
+  <div class="study-steps"><p><strong>① Dónde crearlo.</strong> En src/test/java crea el paquete cl.duoc.dsy1102.timecapsule.service y la clase de prueba.</p><p><strong>② Qué aprender.</strong> Identifica assertThrows e indica qué error espera.</p><p><strong>③ Cómo saber que funciona.</strong> Las pruebas del Service pasan.</p></div>
+  <div class="study-action-footer"><a class="jump-code" href="#archivo-13">Ver código completo y ruta exacta ↓</a><label class="study-done"><input type="checkbox" data-file-done="13"> Ya lo hice y lo entendí</label></div>
+  </article><article class="study-action" id="estudiar-14">
+  <div class="study-action-header"><span class="study-count">14</span><div><span class="eyebrow">R06</span><h3>JsonMensajeDaoTest.java</h3><p>Probar escritura y lectura</p></div></div>
+  <div class="study-steps"><p><strong>① Dónde crearlo.</strong> En src/test/java crea el paquete cl.duoc.dsy1102.timecapsule.dao y esta clase de prueba.</p><p><strong>② Qué aprender.</strong> Busca la prueba que guarda y vuelve a leer.</p><p><strong>③ Cómo saber que funciona.</strong> Los tests del DAO pasan.</p></div>
+  <div class="study-action-footer"><a class="jump-code" href="#archivo-14">Ver código completo y ruta exacta ↓</a><label class="study-done"><input type="checkbox" data-file-done="14"> Ya lo hice y lo entendí</label></div>
+  </article><article class="study-action" id="estudiar-15">
+  <div class="study-action-header"><span class="study-count">15</span><div><span class="eyebrow">R06</span><h3>R06RecuperacionTest.java</h3><p>Probar los casos difíciles</p></div></div>
+  <div class="study-steps"><p><strong>① Dónde crearlo.</strong> En el mismo paquete de pruebas dao crea esta clase.</p><p><strong>② Qué aprender.</strong> Encuentra la prueba de reinicio y la prueba de JSON corrupto.</p><p><strong>③ Cómo saber que funciona.</strong> Se ejecutan las pruebas de recuperación y protección.</p></div>
+  <div class="study-action-footer"><a class="jump-code" href="#archivo-15">Ver código completo y ruta exacta ↓</a><label class="study-done"><input type="checkbox" data-file-done="15"> Ya lo hice y lo entendí</label></div>
+  </article></div><div class="panel soft"><h3>Cuando termines las 15 tareas</h3><p><b>Ejecuta:</b> abre Launcher.java y presiona Run. Escribe un mensaje, revisa <code>data/mensajes.json</code>, cierra y vuelve a abrir. Después ejecuta las pruebas Maven. Si algo falla, vuelve al archivo correspondiente y compara línea por línea.</p><a href="#guia-total">Ir al índice de los 15 códigos completos ↓</a></div></section>
+<section id="guia-total"><div class="eyebrow">NUEVO · PROYECTO COMPLETO</div><h2>Construye todo, archivo por archivo, sin adivinar</h2><p>Esta sección incluye <b>los 15 archivos de código completos</b> de la versión final de estudio. No son trozos sueltos: puedes copiar cada archivo desde su primera hasta su última línea. El código corresponde a la arquitectura R06 del profesor, organizado para aprender.</p>
+<div class="panel soft"><h3>Primero: ¿qué es una carpeta y qué es un paquete?</h3><p>Una <strong>carpeta</strong> es como un cajón en tu computador. Un <strong>archivo</strong> es una hoja dentro de ese cajón. En Java, un <strong>paquete</strong> es un conjunto de carpetas que IntelliJ puede crear por ti. Si escribes <code>cl.duoc.dsy1102.timecapsule</code>, IntelliJ crea las carpetas <code>cl/duoc/dsy1102/timecapsule</code>.</p><div class="note">Abre IntelliJ IDEA → <b>New Project</b> → JavaFX → Maven → JDK 21. Nombre: <b>time-capsule</b>; grupo <b>cl.duoc.dsy1102</b>. También puedes abrir directamente la carpeta <code>proyecto-java</code> que entregamos, y ya tendrás todo creado.</div></div>
+<h3>1. Así deben quedar las carpetas</h3><pre><code>proyecto-java/
+├── pom.xml
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   ├── module-info.java
+│   │   │   └── cl/duoc/dsy1102/timecapsule/
+│   │   │       ├── Launcher.java
+│   │   │       ├── HelloApplication.java
+│   │   │       ├── HelloController.java
+│   │   │       ├── FormularioController.java
+│   │   │       ├── model/MensajeFuturo.java
+│   │   │       ├── service/MensajeService.java
+│   │   │       └── dao/
+│   │   │           ├── MensajeDao.java
+│   │   │           └── JsonMensajeDao.java
+│   │   └── resources/cl/duoc/dsy1102/timecapsule/
+│   │       ├── hello-view.fxml
+│   │       └── formulario-view.fxml
+│   └── test/java/cl/duoc/dsy1102/timecapsule/
+│       ├── service/MensajeServiceTest.java
+│       └── dao/
+│           ├── JsonMensajeDaoTest.java
+│           └── R06RecuperacionTest.java
+└── data/                ← se crea sola al registrar
+    ├── mensajes.json
+    └── mensajes.json.bak ← se crea desde el segundo guardado</code></pre>
+<div class="note warning"><b>Dos rutas importantes:</b> <code>src/main/java</code> contiene clases Java. <code>src/main/resources</code> contiene las pantallas FXML. <code>src/test/java</code> contiene pruebas. ¡No las mezcles!</div>
+<h3>2. El orden más fácil para crear los archivos</h3><ol><li>Crea o abre el proyecto en IntelliJ y comprueba JDK 21.</li><li>Pega primero <code>pom.xml</code> y usa <b>Reload Maven</b>. Esto descarga las bibliotecas que necesitamos.</li><li>Crea <code>module-info.java</code> y después las clases Java del paquete base.</li><li>Crea los subpaquetes <code>model</code>, <code>service</code> y <code>dao</code> y completa cada clase.</li><li>Crea las dos pantallas <code>.fxml</code> dentro de <code>resources</code>, en la ruta correcta.</li><li>Crea las tres clases de pruebas en <code>src/test/java</code>.</li><li>Ejecuta <code>Launcher.main()</code> o <code>mvn clean javafx:run</code>. Registra un mensaje y revisa <code>data/mensajes.json</code>.</li><li>Cierra y vuelve a abrir la app. Ejecuta <code>mvn test</code> y revisa los resultados.</li></ol>
+<div class="panel"><b>¿Por qué no existe la carpeta data?</b><p>Porque el programa la crea automáticamente cuando guardas por primera vez. No necesitas crear manualmente <code>mensajes.json</code>.</p><b>¿Qué es lo que se sube a GitHub?</b><p>Para publicar esta <b>guía web</b>, sube <code>index.html</code>, <code>README.md</code>, <code>.github/</code>, <code>.nojekyll</code> y <code>proyecto-java/</code>. GitHub Pages muestra la guía; la aplicación JavaFX se ejecuta en IntelliJ, no dentro de la página web.</p></div>
+<h3>3. Índice de los archivos (haz clic y salta a su código)</h3><div class="fileindex"><a href="#archivo-1"><span>01</span>pom.xml</a><a href="#archivo-2"><span>02</span>module-info.java</a><a href="#archivo-3"><span>03</span>Launcher.java</a><a href="#archivo-4"><span>04</span>HelloApplication.java</a><a href="#archivo-5"><span>05</span>HelloController.java</a><a href="#archivo-6"><span>06</span>FormularioController.java</a><a href="#archivo-7"><span>07</span>MensajeFuturo.java</a><a href="#archivo-8"><span>08</span>MensajeService.java</a><a href="#archivo-9"><span>09</span>MensajeDao.java</a><a href="#archivo-10"><span>10</span>JsonMensajeDao.java</a><a href="#archivo-11"><span>11</span>hello-view.fxml</a><a href="#archivo-12"><span>12</span>formulario-view.fxml</a><a href="#archivo-13"><span>13</span>MensajeServiceTest.java</a><a href="#archivo-14"><span>14</span>JsonMensajeDaoTest.java</a><a href="#archivo-15"><span>15</span>R06RecuperacionTest.java</a></div>
+<article class="sourcefile" id="archivo-1"><div class="filetag">ARCHIVO 01 DE 15 · XML</div><h3>pom.xml <span class="smallhint">— Raíz del proyecto</span></h3><p><strong>¿Para qué sirve?</strong> El libro de instrucciones de Maven. Indica Java 21 y las bibliotecas necesarias.</p><div class="note"><strong>Cómo crearlo:</strong> Archivo → New → File si no existe. Escribe exactamente pom.xml. Si IntelliJ ya lo creó, ábrelo y reemplaza su contenido.</div><p class="filepath">Ruta exacta: <code>pom.xml</code></p><div class="codehead">Código completo del archivo · 30 líneas <button class="copy" data-copy="fuente-1">Copiar archivo completo</button></div><pre id="fuente-1"><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;
+         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+    &lt;groupId&gt;cl.duoc.dsy1102&lt;/groupId&gt;
+    &lt;artifactId&gt;time-capsule&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+    &lt;name&gt;DSY1102-JFX-TIME-CAPSULE&lt;/name&gt;
+    &lt;properties&gt;
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+        &lt;junit.version&gt;5.12.1&lt;/junit.version&gt;
+    &lt;/properties&gt;
+    &lt;dependencies&gt;
+        &lt;dependency&gt;&lt;groupId&gt;org.openjfx&lt;/groupId&gt;&lt;artifactId&gt;javafx-controls&lt;/artifactId&gt;&lt;version&gt;21.0.6&lt;/version&gt;&lt;/dependency&gt;
+        &lt;dependency&gt;&lt;groupId&gt;org.openjfx&lt;/groupId&gt;&lt;artifactId&gt;javafx-fxml&lt;/artifactId&gt;&lt;version&gt;21.0.6&lt;/version&gt;&lt;/dependency&gt;
+        &lt;dependency&gt;&lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;&lt;artifactId&gt;jackson-databind&lt;/artifactId&gt;&lt;version&gt;2.22.4&lt;/version&gt;&lt;/dependency&gt;
+        &lt;dependency&gt;&lt;groupId&gt;org.junit.jupiter&lt;/groupId&gt;&lt;artifactId&gt;junit-jupiter-api&lt;/artifactId&gt;&lt;version&gt;${junit.version}&lt;/version&gt;&lt;scope&gt;test&lt;/scope&gt;&lt;/dependency&gt;
+        &lt;dependency&gt;&lt;groupId&gt;org.junit.jupiter&lt;/groupId&gt;&lt;artifactId&gt;junit-jupiter-engine&lt;/artifactId&gt;&lt;version&gt;${junit.version}&lt;/version&gt;&lt;scope&gt;test&lt;/scope&gt;&lt;/dependency&gt;
+    &lt;/dependencies&gt;
+    &lt;build&gt;&lt;plugins&gt;
+        &lt;plugin&gt;&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;&lt;artifactId&gt;maven-surefire-plugin&lt;/artifactId&gt;&lt;version&gt;3.2.5&lt;/version&gt;&lt;/plugin&gt;
+        &lt;plugin&gt;&lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;&lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;&lt;version&gt;3.13.0&lt;/version&gt;&lt;configuration&gt;&lt;release&gt;21&lt;/release&gt;&lt;/configuration&gt;&lt;/plugin&gt;
+        &lt;plugin&gt;&lt;groupId&gt;org.openjfx&lt;/groupId&gt;&lt;artifactId&gt;javafx-maven-plugin&lt;/artifactId&gt;&lt;version&gt;0.0.8&lt;/version&gt;&lt;executions&gt;&lt;execution&gt;&lt;id&gt;default-cli&lt;/id&gt;&lt;configuration&gt;
+            &lt;mainClass&gt;cl.duoc.dsy1102.timecapsule/cl.duoc.dsy1102.timecapsule.HelloApplication&lt;/mainClass&gt;
+            &lt;launcher&gt;app&lt;/launcher&gt;&lt;jlinkZipName&gt;app&lt;/jlinkZipName&gt;&lt;jlinkImageName&gt;app&lt;/jlinkImageName&gt;
+            &lt;noManPages&gt;true&lt;/noManPages&gt;&lt;stripDebug&gt;true&lt;/stripDebug&gt;&lt;noHeaderFiles&gt;true&lt;/noHeaderFiles&gt;
+        &lt;/configuration&gt;&lt;/execution&gt;&lt;/executions&gt;&lt;/plugin&gt;
+    &lt;/plugins&gt;&lt;/build&gt;
+&lt;/project&gt;
+</code></pre><p><a href="proyecto-java/pom.xml" download="pom.xml">Descargar solo este archivo ↓</a></p></article><article class="sourcefile" id="archivo-2"><div class="filetag">ARCHIVO 02 DE 15 · JAVA</div><h3>module-info.java <span class="smallhint">— Módulos Java</span></h3><p><strong>¿Para qué sirve?</strong> Permite que JavaFX y Jackson trabajen con las clases del proyecto.</p><div class="note"><strong>Cómo crearlo:</strong> Clic derecho sobre src/main/java → New → File → module-info.java. Si ya existe, reemplázalo.</div><p class="filepath">Ruta exacta: <code>src/main/java/module-info.java</code></p><div class="codehead">Código completo del archivo · 10 líneas <button class="copy" data-copy="fuente-2">Copiar archivo completo</button></div><pre id="fuente-2"><code>module cl.duoc.dsy1102.timecapsule {
+    requires javafx.controls;
+    requires javafx.fxml;
+    requires com.fasterxml.jackson.databind;
+
+    opens cl.duoc.dsy1102.timecapsule to javafx.fxml;
+    opens cl.duoc.dsy1102.timecapsule.model to com.fasterxml.jackson.databind;
+
+    exports cl.duoc.dsy1102.timecapsule;
+}
+</code></pre><p><a href="proyecto-java/src/main/java/module-info.java" download="module-info.java">Descargar solo este archivo ↓</a></p></article><article class="sourcefile" id="archivo-3"><div class="filetag">ARCHIVO 03 DE 15 · JAVA</div><h3>Launcher.java <span class="smallhint">— Arranque del programa</span></h3><p><strong>¿Para qué sirve?</strong> El interruptor que enciende JavaFX.</p><div class="note"><strong>Cómo crearlo:</strong> En src/main/java crea el paquete cl.duoc.dsy1102.timecapsule (New → Package). Clic derecho en el paquete → New → Java Class → Launcher.</div><p class="filepath">Ruta exacta: <code>src/main/java/cl/duoc/dsy1102/timecapsule/Launcher.java</code></p><div class="codehead">Código completo del archivo · 9 líneas <button class="copy" data-copy="fuente-3">Copiar archivo completo</button></div><pre id="fuente-3"><code>package cl.duoc.dsy1102.timecapsule;
+
+import javafx.application.Application;
+
+public class Launcher {
+    public static void main(String[] args) {
+        Application.launch(HelloApplication.class, args);
+    }
+}
+</code></pre><p><a href="proyecto-java/src/main/java/cl/duoc/dsy1102/timecapsule/Launcher.java" download="Launcher.java">Descargar solo este archivo ↓</a></p></article><article class="sourcefile" id="archivo-4"><div class="filetag">ARCHIVO 04 DE 15 · JAVA</div><h3>HelloApplication.java <span class="smallhint">— Ventanas y servicio</span></h3><p><strong>¿Para qué sirve?</strong> Abre la aplicación, prepara el servicio y cambia entre listado y formulario.</p><div class="note"><strong>Cómo crearlo:</strong> En el paquete base cl.duoc.dsy1102.timecapsule → New → Java Class → HelloApplication.</div><p class="filepath">Ruta exacta: <code>src/main/java/cl/duoc/dsy1102/timecapsule/HelloApplication.java</code></p><div class="codehead">Código completo del archivo · 76 líneas <button class="copy" data-copy="fuente-4">Copiar archivo completo</button></div><pre id="fuente-4"><code>package cl.duoc.dsy1102.timecapsule;
+
+import cl.duoc.dsy1102.timecapsule.dao.JsonMensajeDao;
+import cl.duoc.dsy1102.timecapsule.service.MensajeService;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+public class HelloApplication extends Application {
+
+    private Stage stage;
+    private MensajeService mensajeService;
+
+    public MensajeService getMensajeService() {
+        return mensajeService;
+    }
+
+    @Override
+    public void start(Stage stage) {
+        this.stage = stage;
+        stage.setTitle(&quot;Cápsula del Tiempo FX&quot;);
+
+        Path archivoMensajes = Path.of(&quot;data&quot;, &quot;mensajes.json&quot;)
+                .toAbsolutePath().normalize();
+        System.out.println(&quot;[R06] Directorio de trabajo: &quot;
+                + Path.of(&quot;&quot;).toAbsolutePath().normalize());
+        System.out.println(&quot;[R06] Archivo JSON efectivo: &quot; + archivoMensajes);
+        System.out.println(&quot;[R06] Existe al iniciar: &quot; + Files.exists(archivoMensajes));
+
+        try {
+            mensajeService = new MensajeService(
+                    new JsonMensajeDao(archivoMensajes)
+            );
+            mostrarListado();
+            stage.show();
+        } catch (IOException error) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setTitle(&quot;No fue posible abrir la cápsula&quot;);
+            alerta.setHeaderText(&quot;Error al recuperar los mensajes&quot;);
+            alerta.setContentText(&quot;Archivo: &quot; + archivoMensajes
+                    + &quot;\n\n&quot; + error.getMessage());
+            System.err.println(&quot;[R06] Error al cargar &quot; + archivoMensajes);
+            error.printStackTrace(System.err);
+            alerta.showAndWait();
+            Platform.exit();
+        }
+    }
+
+    public void mostrarListado() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(&quot;hello-view.fxml&quot;));
+        Parent root = loader.load();
+        HelloController controller = loader.getController();
+        controller.configurar(this);
+        stage.setScene(new Scene(root, 860, 480));
+    }
+
+    public void mostrarFormulario() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(&quot;formulario-view.fxml&quot;));
+        Parent root = loader.load();
+        FormularioController controller = loader.getController();
+        controller.configurar(this);
+        stage.setScene(new Scene(root, 860, 480));
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
+</code></pre><p><a href="proyecto-java/src/main/java/cl/duoc/dsy1102/timecapsule/HelloApplication.java" download="HelloApplication.java">Descargar solo este archivo ↓</a></p></article><article class="sourcefile" id="archivo-5"><div class="filetag">ARCHIVO 05 DE 15 · JAVA</div><h3>HelloController.java <span class="smallhint">— Control de la tabla</span></h3><p><strong>¿Para qué sirve?</strong> Decide qué datos se muestran en cada columna y abre el formulario.</p><div class="note"><strong>Cómo crearlo:</strong> En el paquete base → New → Java Class → HelloController.</div><p class="filepath">Ruta exacta: <code>src/main/java/cl/duoc/dsy1102/timecapsule/HelloController.java</code></p><div class="codehead">Código completo del archivo · 39 líneas <button class="copy" data-copy="fuente-5">Copiar archivo completo</button></div><pre id="fuente-5"><code>package cl.duoc.dsy1102.timecapsule;
+
+import cl.duoc.dsy1102.timecapsule.model.MensajeFuturo;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.collections.FXCollections;
+import javafx.fxml.FXML;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import java.io.IOException;
+
+public class HelloController {
+    private HelloApplication app;
+    @FXML private TableView&lt;MensajeFuturo&gt; tablaMensajes;
+    @FXML private TableColumn&lt;MensajeFuturo, String&gt; colAutor;
+    @FXML private TableColumn&lt;MensajeFuturo, String&gt; colTexto;
+    @FXML private TableColumn&lt;MensajeFuturo, String&gt; colPlazo;
+
+    @FXML
+    private void initialize() {
+        colAutor.setCellValueFactory(celda -&gt;
+                new ReadOnlyStringWrapper(celda.getValue().getAutor()));
+        colTexto.setCellValueFactory(celda -&gt;
+                new ReadOnlyStringWrapper(celda.getValue().getTexto()));
+        colPlazo.setCellValueFactory(celda -&gt;
+                new ReadOnlyStringWrapper(celda.getValue().getPlazoAnios() + &quot; años&quot;));
+    }
+
+    public void configurar(HelloApplication app) {
+        this.app = app;
+        tablaMensajes.setItems(
+                FXCollections.observableArrayList(app.getMensajeService().listar())
+        );
+    }
+
+    @FXML
+    private void abrirFormulario() throws IOException {
+        app.mostrarFormulario();
+    }
+}
+</code></pre><p><a href="proyecto-java/src/main/java/cl/duoc/dsy1102/timecapsule/HelloController.java" download="HelloController.java">Descargar solo este archivo ↓</a></p></article><article class="sourcefile" id="archivo-6"><div class="filetag">ARCHIVO 06 DE 15 · JAVA</div><h3>FormularioController.java <span class="smallhint">— Control del formulario</span></h3><p><strong>¿Para qué sirve?</strong> Lee los campos, valida mediante el Service y regresa a la tabla.</p><div class="note"><strong>Cómo crearlo:</strong> En el paquete base → New → Java Class → FormularioController.</div><p class="filepath">Ruta exacta: <code>src/main/java/cl/duoc/dsy1102/timecapsule/FormularioController.java</code></p><div class="codehead">Código completo del archivo · 53 líneas <button class="copy" data-copy="fuente-6">Copiar archivo completo</button></div><pre id="fuente-6"><code>package cl.duoc.dsy1102.timecapsule;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import java.io.IOException;
+
+public class FormularioController {
+    private HelloApplication app;
+
+    @FXML private TextField campoAutor;
+    @FXML private TextField campoTexto;
+    @FXML private ComboBox&lt;Integer&gt; campoPlazo;
+    @FXML private Label estadoRegistro;
+
+    public void configurar(HelloApplication app) {
+        this.app = app;
+    }
+
+    @FXML
+    private void initialize() {
+        campoPlazo.getItems().setAll(1, 5, 10);
+        campoPlazo.setValue(5);
+    }
+
+    @FXML
+    private void guardarMensaje() throws IOException {
+        try {
+            app.getMensajeService().registrar(
+                    campoAutor.getText(),
+                    campoTexto.getText(),
+                    campoPlazo.getValue()
+            );
+            app.mostrarListado();
+        } catch (IllegalArgumentException error) {
+            estadoRegistro.setText(error.getMessage());
+        } catch (IOException error) {
+            estadoRegistro.setText(&quot;No se pudo guardar el archivo JSON.&quot;);
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setTitle(&quot;No fue posible guardar el mensaje&quot;);
+            alerta.setHeaderText(&quot;El archivo JSON necesita revisión&quot;);
+            alerta.setContentText(error.getMessage());
+            alerta.showAndWait();
+        }
+    }
+
+    @FXML
+    private void volver() throws IOException {
+        app.mostrarListado();
+    }
+}
+</code></pre><p><a href="proyecto-java/src/main/java/cl/duoc/dsy1102/timecapsule/FormularioController.java" download="FormularioController.java">Descargar solo este archivo ↓</a></p></article><article class="sourcefile" id="archivo-7"><div class="filetag">ARCHIVO 07 DE 15 · JAVA</div><h3>MensajeFuturo.java <span class="smallhint">— Molde de mensaje</span></h3><p><strong>¿Para qué sirve?</strong> Define autor, texto y plazo; es nuestro objeto de programación orientada a objetos.</p><div class="note"><strong>Cómo crearlo:</strong> Clic derecho en paquete base → New → Package → model. Sobre model → New → Java Class → MensajeFuturo.</div><p class="filepath">Ruta exacta: <code>src/main/java/cl/duoc/dsy1102/timecapsule/model/MensajeFuturo.java</code></p><div class="codehead">Código completo del archivo · 22 líneas <button class="copy" data-copy="fuente-7">Copiar archivo completo</button></div><pre id="fuente-7"><code>package cl.duoc.dsy1102.timecapsule.model;
+
+public class MensajeFuturo {
+    private String autor;
+    private String texto;
+    private int plazoAnios;
+
+    public MensajeFuturo() { }
+
+    public MensajeFuturo(String autor, String texto, int plazoAnios) {
+        this.autor = autor;
+        this.texto = texto;
+        this.plazoAnios = plazoAnios;
+    }
+
+    public String getAutor() { return autor; }
+    public void setAutor(String autor) { this.autor = autor; }
+    public String getTexto() { return texto; }
+    public void setTexto(String texto) { this.texto = texto; }
+    public int getPlazoAnios() { return plazoAnios; }
+    public void setPlazoAnios(int plazoAnios) { this.plazoAnios = plazoAnios; }
+}
+</code></pre><p><a href="proyecto-java/src/main/java/cl/duoc/dsy1102/timecapsule/model/MensajeFuturo.java" download="MensajeFuturo.java">Descargar solo este archivo ↓</a></p></article><article class="sourcefile" id="archivo-8"><div class="filetag">ARCHIVO 08 DE 15 · JAVA</div><h3>MensajeService.java <span class="smallhint">— Reglas de negocio</span></h3><p><strong>¿Para qué sirve?</strong> Verifica datos y solicita guardarlos sin depender de botones.</p><div class="note"><strong>Cómo crearlo:</strong> Crea el subpaquete service debajo del paquete base. Dentro → New → Java Class → MensajeService.</div><p class="filepath">Ruta exacta: <code>src/main/java/cl/duoc/dsy1102/timecapsule/service/MensajeService.java</code></p><div class="codehead">Código completo del archivo · 43 líneas <button class="copy" data-copy="fuente-8">Copiar archivo completo</button></div><pre id="fuente-8"><code>package cl.duoc.dsy1102.timecapsule.service;
+
+import cl.duoc.dsy1102.timecapsule.dao.MensajeDao;
+import cl.duoc.dsy1102.timecapsule.model.MensajeFuturo;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class MensajeService {
+    private final MensajeDao dao;
+    private final List&lt;MensajeFuturo&gt; mensajes;
+
+    public MensajeService(MensajeDao dao) throws IOException {
+        this.dao = dao;
+        this.mensajes = new ArrayList&lt;&gt;(dao.listar());
+    }
+
+    public MensajeFuturo registrar(String autor, String texto, Integer plazoAnios)
+            throws IOException {
+        if (autor == null || autor.isBlank()) {
+            throw new IllegalArgumentException(&quot;Debes indicar el autor.&quot;);
+        }
+        if (texto == null || texto.isBlank()) {
+            throw new IllegalArgumentException(&quot;Debes escribir un mensaje.&quot;);
+        }
+        if (plazoAnios == null || plazoAnios &lt;= 0) {
+            throw new IllegalArgumentException(&quot;Selecciona un plazo válido.&quot;);
+        }
+
+        MensajeFuturo nuevo = new MensajeFuturo(
+                autor.trim(), texto.trim(), plazoAnios
+        );
+        List&lt;MensajeFuturo&gt; actualizados = new ArrayList&lt;&gt;(mensajes);
+        actualizados.add(nuevo);
+        dao.guardar(actualizados);
+        mensajes.add(nuevo);
+        return nuevo;
+    }
+
+    public List&lt;MensajeFuturo&gt; listar() {
+        return List.copyOf(mensajes);
+    }
+}
+</code></pre><p><a href="proyecto-java/src/main/java/cl/duoc/dsy1102/timecapsule/service/MensajeService.java" download="MensajeService.java">Descargar solo este archivo ↓</a></p></article><article class="sourcefile" id="archivo-9"><div class="filetag">ARCHIVO 09 DE 15 · JAVA</div><h3>MensajeDao.java <span class="smallhint">— Contrato para guardar</span></h3><p><strong>¿Para qué sirve?</strong> Establece dos operaciones obligatorias: listar y guardar.</p><div class="note"><strong>Cómo crearlo:</strong> Crea subpaquete dao debajo del paquete base. Dentro → New → Java Class → selecciona Interface → MensajeDao.</div><p class="filepath">Ruta exacta: <code>src/main/java/cl/duoc/dsy1102/timecapsule/dao/MensajeDao.java</code></p><div class="codehead">Código completo del archivo · 10 líneas <button class="copy" data-copy="fuente-9">Copiar archivo completo</button></div><pre id="fuente-9"><code>package cl.duoc.dsy1102.timecapsule.dao;
+
+import cl.duoc.dsy1102.timecapsule.model.MensajeFuturo;
+import java.io.IOException;
+import java.util.List;
+
+public interface MensajeDao {
+    List&lt;MensajeFuturo&gt; listar() throws IOException;
+    void guardar(List&lt;MensajeFuturo&gt; mensajes) throws IOException;
+}
+</code></pre><p><a href="proyecto-java/src/main/java/cl/duoc/dsy1102/timecapsule/dao/MensajeDao.java" download="MensajeDao.java">Descargar solo este archivo ↓</a></p></article><article class="sourcefile" id="archivo-10"><div class="filetag">ARCHIVO 10 DE 15 · JAVA</div><h3>JsonMensajeDao.java <span class="smallhint">— Almacenamiento y seguridad</span></h3><p><strong>¿Para qué sirve?</strong> Lee JSON, valida, guarda, crea respaldos y evita sobrescribir cambios externos.</p><div class="note"><strong>Cómo crearlo:</strong> Dentro del mismo paquete dao → New → Java Class → JsonMensajeDao.</div><p class="filepath">Ruta exacta: <code>src/main/java/cl/duoc/dsy1102/timecapsule/dao/JsonMensajeDao.java</code></p><div class="codehead">Código completo del archivo · 146 líneas <button class="copy" data-copy="fuente-10">Copiar archivo completo</button></div><pre id="fuente-10"><code>package cl.duoc.dsy1102.timecapsule.dao;
+
+import cl.duoc.dsy1102.timecapsule.model.MensajeFuturo;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.StreamReadFeature;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+
+import java.io.IOException;
+import java.nio.file.AtomicMoveNotSupportedException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
+import java.util.List;
+
+public class JsonMensajeDao implements MensajeDao {
+    private static final TypeReference&lt;List&lt;MensajeFuturo&gt;&gt; TIPO_MENSAJES =
+            new TypeReference&lt;&gt;() {};
+
+    private final Path archivo;
+    private final ObjectMapper mapper = JsonMapper.builder()
+            .enable(StreamReadFeature.STRICT_DUPLICATE_DETECTION)
+            .build();
+    private byte[] versionConocida;
+    private boolean versionRegistrada;
+
+    public JsonMensajeDao(Path archivo) {
+        this.archivo = archivo;
+    }
+
+    @Override
+    public List&lt;MensajeFuturo&gt; listar() throws IOException {
+        System.out.println(&quot;[R06][DAO] Archivo leído: &quot;
+                + archivo.toAbsolutePath().normalize());
+        byte[] contenido = leerContenidoActual();
+        if (contenido == null) {
+            System.out.println(&quot;[R06][DAO] Archivo ausente; primera ejecución sin datos.&quot;);
+            versionConocida = null;
+            versionRegistrada = true;
+            return List.of();
+        }
+        List&lt;MensajeFuturo&gt; recuperados = leerYValidar(contenido);
+        System.out.println(&quot;[R06][DAO] JSON válido; mensajes recuperados: &quot;
+                + recuperados.size());
+        versionConocida = contenido;
+        versionRegistrada = true;
+        return recuperados;
+    }
+
+    private byte[] leerContenidoActual() throws IOException {
+        if (Files.notExists(archivo)) return null;
+        return Files.readAllBytes(archivo);
+    }
+
+    private List&lt;MensajeFuturo&gt; leerYValidar(byte[] contenido) throws IOException {
+        try {
+            List&lt;MensajeFuturo&gt; recuperados = mapper.readValue(contenido, TIPO_MENSAJES);
+            if (recuperados == null || recuperados.stream().anyMatch(this::esInvalido)) {
+                throw preservarArchivoDanado(new IOException(&quot;Estructura JSON inválida.&quot;));
+            }
+            return recuperados;
+        } catch (JsonProcessingException error) {
+            System.err.println(&quot;[R06][DAO] Jackson rechazó el archivo: &quot;
+                    + archivo.toAbsolutePath().normalize());
+            throw preservarArchivoDanado(error);
+        }
+    }
+
+    private boolean esInvalido(MensajeFuturo mensaje) {
+        return mensaje == null
+                || mensaje.getAutor() == null || mensaje.getAutor().isBlank()
+                || mensaje.getTexto() == null || mensaje.getTexto().isBlank()
+                || mensaje.getPlazoAnios() &lt;= 0;
+    }
+
+    private IOException preservarArchivoDanado(IOException causa) {
+        Path copia = null;
+        try {
+            Path directorio = archivo.toAbsolutePath().getParent();
+            copia = Files.createTempFile(
+                    directorio, archivo.getFileName() + &quot;.corrupt-&quot;, &quot;.json&quot;);
+            Files.copy(archivo, copia, StandardCopyOption.REPLACE_EXISTING);
+            return new IOException(
+                    &quot;El JSON está dañado. Se conservó una copia en &quot;
+                            + copia.toAbsolutePath()
+                            + &quot;. Revisa el respaldo .bak antes de continuar. &quot;
+                            + &quot;El archivo original no se modificó.&quot;, causa);
+        } catch (IOException errorCopia) {
+            if (copia != null) {
+                try { Files.deleteIfExists(copia); }
+                catch (IOException errorLimpieza) { errorCopia.addSuppressed(errorLimpieza); }
+            }
+            IOException error = new IOException(
+                    &quot;El JSON está dañado y no fue posible crear una copia de resguardo. &quot;
+                            + &quot;No se modificó el archivo original.&quot;, causa);
+            error.addSuppressed(errorCopia);
+            return error;
+        }
+    }
+
+    @Override
+    public void guardar(List&lt;MensajeFuturo&gt; mensajes) throws IOException {
+        Path destino = archivo.toAbsolutePath();
+        Path directorio = destino.getParent();
+        Files.createDirectories(directorio);
+
+        byte[] contenidoActual = leerContenidoActual();
+        if (contenidoActual != null) leerYValidar(contenidoActual);
+
+        if (versionRegistrada &amp;&amp; !Arrays.equals(versionConocida, contenidoActual)) {
+            throw new IOException(&quot;El archivo JSON cambió mientras la aplicación estaba &quot;
+                    + &quot;abierta. No se guardó el mensaje para evitar perder datos. &quot;
+                    + &quot;Cierra y vuelve a abrir la cápsula.&quot;);
+        }
+        if (!versionRegistrada) {
+            versionConocida = contenidoActual;
+            versionRegistrada = true;
+        }
+
+        Path temporal = Files.createTempFile(directorio, &quot;mensajes-&quot;, &quot;.tmp&quot;);
+        try {
+            mapper.writerWithDefaultPrettyPrinter().writeValue(temporal.toFile(), mensajes);
+            byte[] nuevaVersion = Files.readAllBytes(temporal);
+            if (!Arrays.equals(versionConocida, leerContenidoActual())) {
+                throw new IOException(&quot;El archivo JSON fue modificado mientras se &quot;
+                        + &quot;preparaba el guardado. Operación cancelada.&quot;);
+            }
+            if (contenidoActual != null) {
+                Path respaldo = destino.resolveSibling(destino.getFileName() + &quot;.bak&quot;);
+                Files.copy(destino, respaldo, StandardCopyOption.REPLACE_EXISTING);
+            }
+            try {
+                Files.move(temporal, destino,
+                        StandardCopyOption.ATOMIC_MOVE,
+                        StandardCopyOption.REPLACE_EXISTING);
+            } catch (AtomicMoveNotSupportedException error) {
+                Files.move(temporal, destino, StandardCopyOption.REPLACE_EXISTING);
+            }
+            versionConocida = nuevaVersion;
+        } finally {
+            Files.deleteIfExists(temporal);
+        }
+    }
+}
+</code></pre><p><a href="proyecto-java/src/main/java/cl/duoc/dsy1102/timecapsule/dao/JsonMensajeDao.java" download="JsonMensajeDao.java">Descargar solo este archivo ↓</a></p></article><article class="sourcefile" id="archivo-11"><div class="filetag">ARCHIVO 11 DE 15 · XML</div><h3>hello-view.fxml <span class="smallhint">— Pantalla de listado</span></h3><p><strong>¿Para qué sirve?</strong> Dibuja tabla, título y botón de nuevo mensaje.</p><div class="note"><strong>Cómo crearlo:</strong> En src/main/resources crea la ruta de carpetas cl/duoc/dsy1102/timecapsule. Dentro → New → File → hello-view.fxml.</div><p class="filepath">Ruta exacta: <code>src/main/resources/cl/duoc/dsy1102/timecapsule/hello-view.fxml</code></p><div class="codehead">Código completo del archivo · 17 líneas <button class="copy" data-copy="fuente-11">Copiar archivo completo</button></div><pre id="fuente-11"><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;?import javafx.scene.control.*?&gt;
+&lt;?import javafx.scene.layout.*?&gt;
+&lt;VBox xmlns:fx=&quot;http://javafx.com/fxml/1&quot;
+      fx:controller=&quot;cl.duoc.dsy1102.timecapsule.HelloController&quot;
+      spacing=&quot;14&quot; style=&quot;-fx-padding: 20;&quot;&gt;
+    &lt;Label text=&quot;Cápsula del Tiempo&quot; style=&quot;-fx-font-size: 24px; -fx-font-weight: bold;&quot;/&gt;
+    &lt;Label text=&quot;Mensajes para nuestro yo del futuro&quot;/&gt;
+    &lt;Button text=&quot;+ Escribir nuevo mensaje&quot; onAction=&quot;#abrirFormulario&quot;/&gt;
+    &lt;TableView fx:id=&quot;tablaMensajes&quot; VBox.vgrow=&quot;ALWAYS&quot;&gt;
+        &lt;columns&gt;
+            &lt;TableColumn fx:id=&quot;colAutor&quot; text=&quot;Autor&quot; prefWidth=&quot;170&quot;/&gt;
+            &lt;TableColumn fx:id=&quot;colTexto&quot; text=&quot;Mensaje&quot; prefWidth=&quot;420&quot;/&gt;
+            &lt;TableColumn fx:id=&quot;colPlazo&quot; text=&quot;Leer dentro de&quot; prefWidth=&quot;160&quot;/&gt;
+        &lt;/columns&gt;
+    &lt;/TableView&gt;
+&lt;/VBox&gt;
+</code></pre><p><a href="proyecto-java/src/main/resources/cl/duoc/dsy1102/timecapsule/hello-view.fxml" download="hello-view.fxml">Descargar solo este archivo ↓</a></p></article><article class="sourcefile" id="archivo-12"><div class="filetag">ARCHIVO 12 DE 15 · XML</div><h3>formulario-view.fxml <span class="smallhint">— Pantalla de registro</span></h3><p><strong>¿Para qué sirve?</strong> Dibuja autor, mensaje, plazo y botones.</p><div class="note"><strong>Cómo crearlo:</strong> En la misma carpeta de recursos → New → File → formulario-view.fxml.</div><p class="filepath">Ruta exacta: <code>src/main/resources/cl/duoc/dsy1102/timecapsule/formulario-view.fxml</code></p><div class="codehead">Código completo del archivo · 18 líneas <button class="copy" data-copy="fuente-12">Copiar archivo completo</button></div><pre id="fuente-12"><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;?import javafx.scene.control.*?&gt;
+&lt;?import javafx.scene.layout.*?&gt;
+&lt;VBox xmlns:fx=&quot;http://javafx.com/fxml/1&quot;
+      fx:controller=&quot;cl.duoc.dsy1102.timecapsule.FormularioController&quot;
+      spacing=&quot;14&quot; style=&quot;-fx-padding: 24;&quot;&gt;
+    &lt;Label text=&quot;Nuevo mensaje para el futuro&quot; style=&quot;-fx-font-size: 24px; -fx-font-weight: bold;&quot;/&gt;
+    &lt;Label text=&quot;¿Qué te gustaría recordar?&quot;/&gt;
+    &lt;TextField fx:id=&quot;campoAutor&quot; promptText=&quot;Tu nombre&quot;/&gt;
+    &lt;TextField fx:id=&quot;campoTexto&quot; promptText=&quot;Escribe tu mensaje&quot;/&gt;
+    &lt;Label text=&quot;¿Dentro de cuántos años?&quot;/&gt;
+    &lt;ComboBox fx:id=&quot;campoPlazo&quot; prefWidth=&quot;160&quot;/&gt;
+    &lt;Label fx:id=&quot;estadoRegistro&quot; text=&quot;&quot;/&gt;
+    &lt;HBox spacing=&quot;12&quot;&gt;
+        &lt;Button text=&quot;Guardar mensaje&quot; onAction=&quot;#guardarMensaje&quot;/&gt;
+        &lt;Button text=&quot;Cancelar / Volver&quot; onAction=&quot;#volver&quot;/&gt;
+    &lt;/HBox&gt;
+&lt;/VBox&gt;
+</code></pre><p><a href="proyecto-java/src/main/resources/cl/duoc/dsy1102/timecapsule/formulario-view.fxml" download="formulario-view.fxml">Descargar solo este archivo ↓</a></p></article><article class="sourcefile" id="archivo-13"><div class="filetag">ARCHIVO 13 DE 15 · JAVA</div><h3>MensajeServiceTest.java <span class="smallhint">— Pruebas de reglas</span></h3><p><strong>¿Para qué sirve?</strong> Comprueba validaciones, escrituras exitosas y fallidas.</p><div class="note"><strong>Cómo crearlo:</strong> En src/test/java crea el paquete cl.duoc.dsy1102.timecapsule.service. Dentro → New → Java Class → MensajeServiceTest.</div><p class="filepath">Ruta exacta: <code>src/test/java/cl/duoc/dsy1102/timecapsule/service/MensajeServiceTest.java</code></p><div class="codehead">Código completo del archivo · 60 líneas <button class="copy" data-copy="fuente-13">Copiar archivo completo</button></div><pre id="fuente-13"><code>package cl.duoc.dsy1102.timecapsule.service;
+
+import cl.duoc.dsy1102.timecapsule.dao.MensajeDao;
+import cl.duoc.dsy1102.timecapsule.model.MensajeFuturo;
+import org.junit.jupiter.api.Test;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import static org.junit.jupiter.api.Assertions.*;
+
+class MensajeServiceTest {
+    private static class DaoMemoria implements MensajeDao {
+        List&lt;MensajeFuturo&gt; guardados = new ArrayList&lt;&gt;();
+        @Override public List&lt;MensajeFuturo&gt; listar() { return List.copyOf(guardados); }
+        @Override public void guardar(List&lt;MensajeFuturo&gt; mensajes) {
+            guardados = new ArrayList&lt;&gt;(mensajes);
+        }
+    }
+
+    @Test void registrarMensajeValidoNormalizaYPersiste() throws Exception {
+        DaoMemoria dao = new DaoMemoria();
+        MensajeService service = new MensajeService(dao);
+        var mensaje = service.registrar(&quot;  Vale  &quot;, &quot;  Hola futuro  &quot;, 5);
+        assertEquals(&quot;Vale&quot;, mensaje.getAutor());
+        assertEquals(&quot;Hola futuro&quot;, mensaje.getTexto());
+        assertEquals(5, mensaje.getPlazoAnios());
+        assertEquals(1, service.listar().size());
+        assertEquals(1, dao.guardados.size());
+    }
+
+    @Test void rechazaDatosInvalidosSinPersistir() throws Exception {
+        DaoMemoria dao = new DaoMemoria();
+        MensajeService service = new MensajeService(dao);
+        assertThrows(IllegalArgumentException.class, () -&gt; service.registrar(&quot;  &quot;, &quot;Mensaje&quot;, 5));
+        assertThrows(IllegalArgumentException.class, () -&gt; service.registrar(&quot;Carlos&quot;, &quot;  &quot;, 5));
+        assertThrows(IllegalArgumentException.class, () -&gt; service.registrar(&quot;Carlos&quot;, &quot;Mensaje&quot;, null));
+        assertThrows(IllegalArgumentException.class, () -&gt; service.registrar(&quot;Carlos&quot;, &quot;Mensaje&quot;, 0));
+        assertTrue(service.listar().isEmpty());
+        assertTrue(dao.guardados.isEmpty());
+    }
+
+    @Test void listadoEsUnaCopiaNoModificable() throws Exception {
+        MensajeService service = new MensajeService(new DaoMemoria());
+        service.registrar(&quot;Vale&quot;, &quot;Mensaje&quot;, 1);
+        assertThrows(UnsupportedOperationException.class, () -&gt; service.listar().clear());
+        assertEquals(1, service.listar().size());
+    }
+
+    @Test void fallaDeEscrituraNoAgregaMensajeEnMemoria() throws Exception {
+        MensajeDao dao = new MensajeDao() {
+            public List&lt;MensajeFuturo&gt; listar() { return List.of(); }
+            public void guardar(List&lt;MensajeFuturo&gt; mensajes) throws IOException {
+                throw new IOException(&quot;Disco no disponible&quot;);
+            }
+        };
+        MensajeService service = new MensajeService(dao);
+        assertThrows(IOException.class, () -&gt; service.registrar(&quot;Carlos&quot;, &quot;Hola&quot;, 5));
+        assertTrue(service.listar().isEmpty());
+    }
+}
+</code></pre><p><a href="proyecto-java/src/test/java/cl/duoc/dsy1102/timecapsule/service/MensajeServiceTest.java" download="MensajeServiceTest.java">Descargar solo este archivo ↓</a></p></article><article class="sourcefile" id="archivo-14"><div class="filetag">ARCHIVO 14 DE 15 · JAVA</div><h3>JsonMensajeDaoTest.java <span class="smallhint">— Pruebas básicas de JSON</span></h3><p><strong>¿Para qué sirve?</strong> Comprueba guardar, leer y la reacción frente a un archivo roto.</p><div class="note"><strong>Cómo crearlo:</strong> En src/test/java crea el paquete cl.duoc.dsy1102.timecapsule.dao. Dentro → New → Java Class → JsonMensajeDaoTest.</div><p class="filepath">Ruta exacta: <code>src/test/java/cl/duoc/dsy1102/timecapsule/dao/JsonMensajeDaoTest.java</code></p><div class="codehead">Código completo del archivo · 34 líneas <button class="copy" data-copy="fuente-14">Copiar archivo completo</button></div><pre id="fuente-14"><code>package cl.duoc.dsy1102.timecapsule.dao;
+
+import cl.duoc.dsy1102.timecapsule.model.MensajeFuturo;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+import static org.junit.jupiter.api.Assertions.*;
+
+class JsonMensajeDaoTest {
+    @TempDir Path tempDir;
+
+    @Test void guardaYLeeMensajes() throws Exception {
+        Path archivo = tempDir.resolve(&quot;data/mensajes.json&quot;);
+        MensajeDao dao = new JsonMensajeDao(archivo);
+        assertTrue(dao.listar().isEmpty());
+        dao.guardar(List.of(new MensajeFuturo(&quot;Vale&quot;, &quot;Hola futuro&quot;, 5)));
+        assertTrue(Files.exists(archivo));
+        var recuperados = new JsonMensajeDao(archivo).listar();
+        assertEquals(1, recuperados.size());
+        assertEquals(&quot;Vale&quot;, recuperados.get(0).getAutor());
+        assertEquals(&quot;Hola futuro&quot;, recuperados.get(0).getTexto());
+        assertEquals(5, recuperados.get(0).getPlazoAnios());
+    }
+
+    @Test void archivoDanadoLanzaErrorYNoSeBorra() throws Exception {
+        Path archivo = tempDir.resolve(&quot;mensajes.json&quot;);
+        Files.writeString(archivo, &quot;{mal-json&quot;);
+        MensajeDao dao = new JsonMensajeDao(archivo);
+        assertThrows(java.io.IOException.class, dao::listar);
+        assertEquals(&quot;{mal-json&quot;, Files.readString(archivo));
+    }
+}
+</code></pre><p><a href="proyecto-java/src/test/java/cl/duoc/dsy1102/timecapsule/dao/JsonMensajeDaoTest.java" download="JsonMensajeDaoTest.java">Descargar solo este archivo ↓</a></p></article><article class="sourcefile" id="archivo-15"><div class="filetag">ARCHIVO 15 DE 15 · JAVA</div><h3>R06RecuperacionTest.java <span class="smallhint">— Pruebas avanzadas de R06</span></h3><p><strong>¿Para qué sirve?</strong> Verifica reinicio, respaldo, archivos corruptos y propiedades duplicadas.</p><div class="note"><strong>Cómo crearlo:</strong> En el paquete de pruebas dao → New → Java Class → R06RecuperacionTest.</div><p class="filepath">Ruta exacta: <code>src/test/java/cl/duoc/dsy1102/timecapsule/dao/R06RecuperacionTest.java</code></p><div class="codehead">Código completo del archivo · 188 líneas <button class="copy" data-copy="fuente-15">Copiar archivo completo</button></div><pre id="fuente-15"><code>package cl.duoc.dsy1102.timecapsule.dao;
+
+import cl.duoc.dsy1102.timecapsule.model.MensajeFuturo;
+import cl.duoc.dsy1102.timecapsule.service.MensajeService;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.stream.Stream;
+import static org.junit.jupiter.api.Assertions.*;
+
+class R06RecuperacionTest {
+    @TempDir Path carpetaTemporal;
+
+    @Test void reiniciarRecuperaMensajesSinDuplicarlos() throws Exception {
+        Path archivo = carpetaTemporal.resolve(&quot;data/mensajes.json&quot;);
+        MensajeService primera = new MensajeService(new JsonMensajeDao(archivo));
+        primera.registrar(&quot;Carlos&quot;, &quot;Mensaje de prueba&quot;, 5);
+        primera.registrar(&quot;Carlos&quot;, &quot;Otro Mensaje&quot;, 5);
+        MensajeService segunda = new MensajeService(new JsonMensajeDao(archivo));
+        assertEquals(2, segunda.listar().size());
+        assertEquals(&quot;Mensaje de prueba&quot;, segunda.listar().get(0).getTexto());
+        assertEquals(&quot;Otro Mensaje&quot;, segunda.listar().get(1).getTexto());
+    }
+
+    @Test void segundoGuardadoConservaVersionAnteriorEnBak() throws Exception {
+        Path archivo = carpetaTemporal.resolve(&quot;mensajes.json&quot;);
+        JsonMensajeDao dao = new JsonMensajeDao(archivo);
+        dao.guardar(List.of(new MensajeFuturo(&quot;Vale&quot;, &quot;Primero&quot;, 1)));
+        dao.guardar(List.of(new MensajeFuturo(&quot;Vale&quot;, &quot;Primero&quot;, 1), new MensajeFuturo(&quot;Carlos&quot;, &quot;Segundo&quot;, 5)));
+        Path respaldo = carpetaTemporal.resolve(&quot;mensajes.json.bak&quot;);
+        assertTrue(Files.exists(respaldo));
+        assertEquals(1, new JsonMensajeDao(respaldo).listar().size());
+        assertEquals(2, new JsonMensajeDao(archivo).listar().size());
+    }
+
+    @Test void jsonCorruptoConservaOriginalYCopiaDeResguardo() throws Exception {
+        Path archivo = carpetaTemporal.resolve(&quot;mensajes.json&quot;);
+        Files.writeString(archivo, &quot;{contenido-danado&quot;);
+        IOException error = assertThrows(IOException.class, () -&gt; new JsonMensajeDao(archivo).listar());
+        assertTrue(error.getMessage().contains(&quot;está dañado&quot;));
+        assertEquals(&quot;{contenido-danado&quot;, Files.readString(archivo));
+        try (Stream&lt;Path&gt; archivos = Files.list(carpetaTemporal)) {
+            List&lt;Path&gt; copias = archivos.filter(p -&gt; p.getFileName().toString().startsWith(&quot;mensajes.json.corrupt-&quot;)).toList();
+            assertEquals(1, copias.size());
+            assertEquals(&quot;{contenido-danado&quot;, Files.readString(copias.get(0)));
+        }
+    }
+
+    @Test void raizJsonNullSeRechazaYSeConserva() throws Exception {
+        Path archivo = carpetaTemporal.resolve(&quot;mensajes.json&quot;);
+        Files.writeString(archivo, &quot;null&quot;);
+        assertThrows(IOException.class, () -&gt; new JsonMensajeDao(archivo).listar());
+        assertEquals(&quot;null&quot;, Files.readString(archivo));
+    }
+
+    @Test void estructuraInvalidaNoSeAceptaComoMensaje() throws Exception {
+        Path archivo = carpetaTemporal.resolve(&quot;mensajes.json&quot;);
+        Files.writeString(archivo, &quot;[{\&quot;autor\&quot;:\&quot;\&quot;,\&quot;texto\&quot;:\&quot;Hola\&quot;,\&quot;plazoAnios\&quot;:5}]&quot;);
+        assertThrows(IOException.class, () -&gt; new JsonMensajeDao(archivo).listar());
+        assertTrue(Files.exists(archivo));
+    }
+
+    @Test void faltaComaEntreObjetosDetectaCorrupcionSinBorrarOriginal() throws Exception {
+        Path archivo = carpetaTemporal.resolve(&quot;mensajes.json&quot;);
+        String contenido = &quot;&quot;&quot;
+                [
+                  {&quot;autor&quot;:&quot;Carlos&quot;,&quot;texto&quot;:&quot;Primero&quot;,&quot;plazoAnios&quot;:5}
+                  {&quot;autor&quot;:&quot;Carlos&quot;,&quot;texto&quot;:&quot;Segundo&quot;,&quot;plazoAnios&quot;:5}
+                ]
+                &quot;&quot;&quot;;
+        Files.writeString(archivo, contenido);
+        IOException error = assertThrows(IOException.class, () -&gt; new JsonMensajeDao(archivo).listar());
+        assertTrue(error.getMessage().contains(&quot;está dañado&quot;));
+        assertEquals(contenido, Files.readString(archivo));
+        try (Stream&lt;Path&gt; entradas = Files.list(carpetaTemporal)) {
+            assertEquals(1, entradas.filter(p -&gt; p.getFileName().toString().startsWith(&quot;mensajes.json.corrupt-&quot;)).count());
+        }
+    }
+
+    @Test void guardarMientrasJavaFxSigueAbiertoNoReparaJsonCorrupto() throws Exception {
+        Path archivo = carpetaTemporal.resolve(&quot;mensajes.json&quot;);
+        MensajeService service = new MensajeService(new JsonMensajeDao(archivo));
+        service.registrar(&quot;Carlos&quot;, &quot;Primero&quot;, 5);
+        service.registrar(&quot;Carlos&quot;, &quot;Segundo&quot;, 5);
+        Path backup = carpetaTemporal.resolve(&quot;mensajes.json.bak&quot;);
+        String anterior = Files.readString(backup);
+        Files.writeString(archivo, &quot;{json roto&quot;);
+        IOException error = assertThrows(IOException.class, () -&gt; service.registrar(&quot;Carlos&quot;, &quot;Tercero&quot;, 5));
+        assertTrue(error.getMessage().contains(&quot;está dañado&quot;));
+        assertEquals(&quot;{json roto&quot;, Files.readString(archivo));
+        assertEquals(anterior, Files.readString(backup));
+        assertEquals(2, service.listar().size());
+        try (Stream&lt;Path&gt; entradas = Files.list(carpetaTemporal)) {
+            assertEquals(1, entradas.filter(p -&gt; p.getFileName().toString().startsWith(&quot;mensajes.json.corrupt-&quot;)).count());
+        }
+    }
+
+    @Test void guardarNoSobrescribeCambioExternoAunqueJsonSeaValido() throws Exception {
+        Path archivo = carpetaTemporal.resolve(&quot;mensajes.json&quot;);
+        MensajeService service = new MensajeService(new JsonMensajeDao(archivo));
+        service.registrar(&quot;Carlos&quot;, &quot;Original&quot;, 5);
+        Files.writeString(archivo, &quot;[]&quot;);
+        IOException error = assertThrows(IOException.class, () -&gt; service.registrar(&quot;Carlos&quot;, &quot;No debe guardarse&quot;, 5));
+        assertTrue(error.getMessage().contains(&quot;cambió mientras&quot;));
+        assertEquals(&quot;[]&quot;, Files.readString(archivo));
+        assertEquals(1, service.listar().size());
+    }
+
+    @Test void jsonCorruptoConBakValidoNoCargaRespaldoAutomaticamente() throws Exception {
+        Path archivo = carpetaTemporal.resolve(&quot;mensajes.json&quot;);
+        Path respaldo = carpetaTemporal.resolve(&quot;mensajes.json.bak&quot;);
+        Files.writeString(archivo, &quot;{json roto&quot;);
+        new JsonMensajeDao(respaldo).guardar(List.of(new MensajeFuturo(&quot;Carlos&quot;, &quot;Desde respaldo&quot;, 5)));
+        IOException error = assertThrows(IOException.class, () -&gt; new MensajeService(new JsonMensajeDao(archivo)));
+        assertTrue(error.getMessage().contains(&quot;está dañado&quot;));
+        assertEquals(&quot;{json roto&quot;, Files.readString(archivo));
+        assertEquals(1, new JsonMensajeDao(respaldo).listar().size());
+        try (Stream&lt;Path&gt; entradas = Files.list(carpetaTemporal)) {
+            assertEquals(1, entradas.filter(p -&gt; p.getFileName().toString().startsWith(&quot;mensajes.json.corrupt-&quot;)).count());
+        }
+    }
+
+    @Test void jsonConListaVaciaDevuelveListaVaciaAunqueHayaRespaldo() throws Exception {
+        Path archivo = carpetaTemporal.resolve(&quot;mensajes.json&quot;);
+        Path respaldo = carpetaTemporal.resolve(&quot;mensajes.json.bak&quot;);
+        Files.writeString(archivo, &quot;[]&quot;);
+        new JsonMensajeDao(respaldo).guardar(List.of(new MensajeFuturo(&quot;Carlos&quot;, &quot;Solo en respaldo&quot;, 5)));
+        List&lt;MensajeFuturo&gt; mensajes = new JsonMensajeDao(archivo).listar();
+        assertTrue(mensajes.isEmpty());
+        assertEquals(1, new JsonMensajeDao(respaldo).listar().size());
+    }
+
+    @Test void propiedadesDuplicadasEnMismoObjetoSonRechazadas() throws Exception {
+        Path archivo = carpetaTemporal.resolve(&quot;mensajes.json&quot;);
+        String contenido = &quot;&quot;&quot;
+                [
+                  {&quot;autor&quot;:&quot;Carlos&quot;,&quot;texto&quot;:&quot;Mensaje de prueba&quot;,&quot;plazoAnios&quot;:5},
+                  {&quot;autor&quot;:&quot;Carlos&quot;,&quot;texto&quot;:&quot;Otro Mensaje&quot;,&quot;plazoAnios&quot;:5,
+                   &quot;autor&quot;:&quot;Carlos&quot;,&quot;texto&quot;:&quot;3er registro&quot;,&quot;plazoAnios&quot;:5}
+                ]
+                &quot;&quot;&quot;;
+        Files.writeString(archivo, contenido);
+        IOException error = assertThrows(IOException.class, () -&gt; new JsonMensajeDao(archivo).listar());
+        assertTrue(error.getMessage().contains(&quot;está dañado&quot;));
+        assertEquals(contenido, Files.readString(archivo));
+        try (Stream&lt;Path&gt; archivos = Files.list(carpetaTemporal)) {
+            List&lt;Path&gt; copias = archivos.filter(p -&gt; p.getFileName().toString().startsWith(&quot;mensajes.json.corrupt-&quot;)).toList();
+            assertEquals(1, copias.size());
+            assertEquals(contenido, Files.readString(copias.get(0)));
+        }
+    }
+
+    @Test void propiedadesIgualesEnObjetosDiferentesSonValidas() throws Exception {
+        Path archivo = carpetaTemporal.resolve(&quot;mensajes.json&quot;);
+        Files.writeString(archivo, &quot;&quot;&quot;
+                [
+                  {&quot;autor&quot;:&quot;Carlos&quot;,&quot;texto&quot;:&quot;Primero&quot;,&quot;plazoAnios&quot;:5},
+                  {&quot;autor&quot;:&quot;Carlos&quot;,&quot;texto&quot;:&quot;Segundo&quot;,&quot;plazoAnios&quot;:5}
+                ]
+                &quot;&quot;&quot;);
+        List&lt;MensajeFuturo&gt; mensajes = new JsonMensajeDao(archivo).listar();
+        assertEquals(2, mensajes.size());
+        assertEquals(&quot;Primero&quot;, mensajes.get(0).getTexto());
+        assertEquals(&quot;Segundo&quot;, mensajes.get(1).getTexto());
+    }
+
+    @Test void duplicadosDuranteLaEjecucionBloqueanGuardadoYProtegenBak() throws Exception {
+        Path archivo = carpetaTemporal.resolve(&quot;mensajes.json&quot;);
+        MensajeService service = new MensajeService(new JsonMensajeDao(archivo));
+        service.registrar(&quot;Carlos&quot;, &quot;Primero&quot;, 5);
+        service.registrar(&quot;Carlos&quot;, &quot;Segundo&quot;, 5);
+        Path respaldo = carpetaTemporal.resolve(&quot;mensajes.json.bak&quot;);
+        String anterior = Files.readString(respaldo);
+        String duplicado = &quot;&quot;&quot;
+                [
+                  {&quot;autor&quot;:&quot;Carlos&quot;,&quot;texto&quot;:&quot;Primero&quot;,&quot;plazoAnios&quot;:5,&quot;texto&quot;:&quot;Tercero&quot;}
+                ]
+                &quot;&quot;&quot;;
+        Files.writeString(archivo, duplicado);
+        assertThrows(IOException.class, () -&gt; service.registrar(&quot;Carlos&quot;, &quot;No debe registrarse&quot;, 5));
+        assertEquals(2, service.listar().size());
+        assertEquals(duplicado, Files.readString(archivo));
+        assertEquals(anterior, Files.readString(respaldo));
+    }
+}
+</code></pre><p><a href="proyecto-java/src/test/java/cl/duoc/dsy1102/timecapsule/dao/R06RecuperacionTest.java" download="R06RecuperacionTest.java">Descargar solo este archivo ↓</a></p></article>
+<div class="panel"><h3>Última comprobación: si algo no funciona</h3><div class="table-wrap"><table><thead><tr><th>Síntoma</th><th>Qué revisar</th></tr></thead><tbody><tr><td>El compilador dice Java 8</td><td>JDK 21 y <code>&lt;release&gt;21&lt;/release&gt;</code> en pom.xml; Reload Maven.</td></tr><tr><td>Cannot load FXML</td><td>Archivos en <code>src/main/resources/cl/duoc/dsy1102/timecapsule/</code>, mismo nombre que getResource().</td></tr><tr><td>fx:id no encontrado</td><td>Los nombres de FXML deben coincidir exactamente con los campos @FXML.</td></tr><tr><td>Jackson no funciona</td><td>Dependencia en pom.xml y <code>opens ...model to com.fasterxml.jackson.databind</code> en module-info.java.</td></tr><tr><td>Mensajes desaparecen</td><td>Revisar la ruta JSON real en la consola y confirmar que se está ejecutando el proyecto correcto.</td></tr><tr><td>El sitio abre pero Java no</td><td>GitHub Pages solo publica la guía HTML. JavaFX necesita JDK y ejecución local.</td></tr></tbody></table></div></div>
+</section>
+<section id="fuentes"><div class="eyebrow">Recursos oficiales del curso</div><h2>Consulta el proyecto real del profesor</h2><div class="panel"><p><a href="https://cmartinezs.github.io/DSY1102-DESARROLLO-ORIENTADO-OBJETOS-2026-2/pages/classes/capsula-tiempo-fx/#1" target="_blank" rel="noopener noreferrer">Presentación «Cápsula del Tiempo FX» ↗</a><br><span class="sub">Diapositivas, capturas y checkpoints de R00 a R06.</span></p><p><a href="https://github.com/cmartinezs/DSY1102-JFX-TIME-CAPSULE" target="_blank" rel="noopener noreferrer">Repositorio JavaFX de la aplicación ↗</a><br><span class="sub">Fuentes Java, FXML, Maven y evolución por incrementos.</span></p><p><a href="https://github.com/cmartinezs/DSY1102-JFX-TIME-CAPSULE/tree/feat/dsy1102-r06-json-recovery" target="_blank" rel="noopener noreferrer">Rama con recuperación JSON ↗</a><br><span class="sub">Código de la etapa R06 y validaciones más avanzadas.</span></p></div><p class="mini">Esta web es una guía de estudio independiente basada en el material del curso; no es una copia ni reemplaza los archivos originales de la aplicación JavaFX.</p></section>
+<footer class="footer">Guía DSY1102 · Cápsula del Tiempo FX · Preparada para GitHub Pages · Tu progreso se guarda únicamente en este navegador (localStorage).</footer>
+</main></div>
+<script>
+(()=>{'use strict';
+const prefix='dsy1102-capsula-v1:';
+const get=(key,def)=>{try{let x=localStorage.getItem(prefix+key);return x===null?def:JSON.parse(x)}catch{return def}};
+const put=(key,val)=>{try{localStorage.setItem(prefix+key,JSON.stringify(val))}catch{}};
+const stages=[...document.querySelectorAll('[data-stage]')];
+function syncStages(){let count=0;stages.forEach(el=>{el.checked=!!get(el.dataset.stage,false);if(el.checked)count++});document.getElementById('progressText').textContent=count+' de 7 etapas';document.getElementById('progressFill').style.width=(count/7*100)+'%';document.getElementById('progressBar').setAttribute('aria-valuenow',count)}
+stages.forEach(el=>el.addEventListener('change',()=>{put(el.dataset.stage,el.checked);syncStages()}));
+const questions=[
+['¿Qué diferencia hay entre clase y objeto?','Una clase es el molde; un objeto es algo concreto construido con ese molde. MensajeFuturo es una clase y el mensaje de Carlos es un objeto.'],
+['¿Qué hace el constructor?','Prepara un objeto al crearlo y permite darle datos iniciales, como autor, texto y plazo.'],
+['¿Qué significa private?','Impide acceder directamente al atributo desde cualquier clase; así controlamos su uso.'],
+['¿Para qué sirve un getter?','Es un método que permite consultar el valor de un atributo.'],
+['¿Qué hace el archivo FXML?','Describe la apariencia y estructura de la interfaz: tablas, botones, campos.'],
+['¿Qué trabajo hace un Controller?','Conecta eventos de la pantalla con acciones del programa.'],
+['¿En qué se diferencian ObservableList y TableView?','ObservableList reúne y comunica cambios en objetos; TableView muestra esos objetos en una tabla.'],
+['¿Para qué sirve un Service?','Centraliza las reglas de negocio y coordina operaciones sin depender de los controles visuales.'],
+['¿Qué hace un DAO?','Aísla la lectura y escritura de datos; en este proyecto permite trabajar con JSON.'],
+['¿Por qué hay que reiniciar para probar R06?','Porque ver una fila en pantalla no demuestra que se guardó en disco. Tras reiniciar, la app tiene que volver a leer el archivo.']];
+const qbox=document.getElementById('questions');questions.forEach(([q,a],i)=>{let el=document.createElement('article');el.className='qa';let title=document.createElement('h3');title.textContent=(i+1)+'. '+q;let btn=document.createElement('button');btn.type='button';btn.textContent='Mostrar respuesta';btn.setAttribute('aria-expanded','false');let ans=document.createElement('div');ans.className='answer';ans.textContent=a;btn.addEventListener('click',()=>{const show=!el.classList.contains('reveal');el.classList.toggle('reveal',show);btn.textContent=show?'Ocultar respuesta':'Mostrar respuesta';btn.setAttribute('aria-expanded',String(show))});el.append(title,btn,ans);qbox.append(el)});
+const criteria=['El proyecto compila con Java 21 y Maven.','Launcher abre la ventana JavaFX.','MensajeFuturo tiene atributos, constructor y getters.','Se ven dos mensajes en una TableView.','El formulario agrega mensajes y rechaza datos incompletos.','Listado y formulario comparten la misma lista.','Service y DAO están separados y se genera mensajes.json.','Después de reiniciar se recuperan los datos.','Se probó el comportamiento de respaldo y JSON inválido.','Se ejecutaron las pruebas automáticas.'];
+const final=document.getElementById('finalChecks');criteria.forEach((s,i)=>{let l=document.createElement('label');let input=document.createElement('input');input.type='checkbox';input.checked=!!get('criteria-'+i,false);input.addEventListener('change',()=>put('criteria-'+i,input.checked));let text=document.createElement('span');text.textContent=s;l.append(input,text);final.append(l)});
+function reset(){fileMarks.forEach(x=>{x.checked=false;put('file-'+x.dataset.fileDone,false)});syncFileMarks();stages.forEach(el=>{put(el.dataset.stage,false)});criteria.forEach((_,i)=>put('criteria-'+i,false));[...final.querySelectorAll('input')].forEach(e=>e.checked=false);syncStages()}
+document.getElementById('resetProgress').addEventListener('click',()=>{if(confirm('¿Reiniciar las siete etapas?')){stages.forEach(el=>put(el.dataset.stage,false));syncStages()}});
+document.getElementById('resetAll').addEventListener('click',()=>{if(confirm('¿Borrar todas las marcas de avance?'))reset()});
+document.querySelectorAll('.copy').forEach(btn=>btn.addEventListener('click',async()=>{const p=document.getElementById(btn.dataset.copy);let txt=p.innerText;try{await navigator.clipboard.writeText(txt);const old=btn.textContent;btn.textContent='¡Copiado!';setTimeout(()=>btn.textContent=old,1400)}catch{let selection=window.getSelection();let range=document.createRange();range.selectNodeContents(p);selection.removeAllRanges();selection.addRange(range);btn.textContent='Seleccionado: Ctrl+C'}}));
+
+const fileMarks=[...document.querySelectorAll('[data-file-done]')];
+function syncFileMarks(){let n=fileMarks.filter(x=>x.checked).length;document.getElementById('fileProgressText').textContent=n+' / '+fileMarks.length;document.getElementById('fileProgressFill').style.width=(100*n/fileMarks.length)+'%';document.getElementById('fileProgressBar').setAttribute('aria-valuenow',String(n));}
+fileMarks.forEach(x=>{x.checked=!!get('file-'+x.dataset.fileDone,false);x.addEventListener('change',()=>{put('file-'+x.dataset.fileDone,x.checked);syncFileMarks();});});syncFileMarks();
+
+const toggle=document.getElementById('navToggle');const side=document.getElementById('side');toggle.addEventListener('click',()=>{let open=side.classList.toggle('show');toggle.setAttribute('aria-expanded',String(open))});side.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{side.classList.remove('show');toggle.setAttribute('aria-expanded','false')}));
+const links=[...side.querySelectorAll('a')];function active(){let current='inicio';for(const sec of document.querySelectorAll('main section[id]'))if(sec.getBoundingClientRect().top<155)current=sec.id;links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+current))}window.addEventListener('scroll',active,{passive:true});syncStages();active();
+})();
+</script>
+</body>
+</html>
